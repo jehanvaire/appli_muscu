@@ -9,3 +9,9 @@ export interface Exercice {
     tempos? : string,
     sensation? : string
 }
+
+export interface Seance {
+    id? : string,
+    nom? : string,
+    exercices? : Exercice[],
+}
