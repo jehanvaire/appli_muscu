@@ -1,10 +1,10 @@
-import {Seance} from '../types';
+import {Exercice, Seance} from '../types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /**
  * @class Seances : Permet de gérer les données des séances
  */
-class SeancesStore {
+export default class SeancesStore {
     private seances : Seance[] = [] as Seance[];
 
     constructor() {
@@ -27,19 +27,52 @@ class SeancesStore {
         return this.seances;
     }
 
+    public getSeanceByID(idSeance : string) {
+        const seanceIndex = this.seances.findIndex(s => s.id === idSeance);
+
+        if(seanceIndex === -1) return;
+
+        return this.seances[seanceIndex];
+    }
+
     private async _setSeances() {
-        try {
-            await AsyncStorage.setItem(
-                'Seances',
-                JSON.stringify(this.seances)
-            )
-        } catch (e) {
-            console.error(e)
-        }
+        await AsyncStorage.setItem(
+            'Seances',
+            JSON.stringify(this.seances)
+        )
     }
 
     public addSeance(seance : Seance) {
+        const isExisting = this.seances.findIndex(s => s.id === seance?.id);
+
+        if(isExisting > -1) {
+            this.seances[isExisting] = seance;
+            this._setSeances();
+            return;
+        }
+
         this.seances.push(seance);
-        this._setSeances().then(e => console.error(e));
+        this._setSeances();
+    }
+
+    public addOrUpdateExerciceByID(exercice : Exercice, idSeance : string) {
+        const seanceIndex = this.seances.findIndex(s => s.id === idSeance);
+
+        if(seanceIndex === -1) return;
+
+        let seance = this.seances[seanceIndex] as Seance;
+
+        if(!seance.exercices) {
+            seance.exercices = [] as Exercice[];
+        }
+
+        const index = seance.exercices.findIndex((e : Exercice) => e.id === exercice.id);
+
+        if(index) {
+            seance.exercices[index] = exercice;
+            return;
+        }
+
+        seance.exercices.push(exercice);
     }
 }
