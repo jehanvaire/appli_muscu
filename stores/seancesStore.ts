@@ -5,32 +5,32 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
  * @class Seances : Permet de gérer les données des séances
  */
 export default class SeancesStore {
-    private seances : Seance[] = [] as Seance[];
+    private seances: Seance[] = [] as Seance[];
 
     constructor() {
-        SeancesStore._getSeances().then((seances : Seance[]) => this.seances = seances);
+        SeancesStore._getSeances().then((seances: Seance[]) => this.seances = seances);
     }
 
-    private static async _getSeances() : Promise<Seance[]> {
-        let seancesJson : Seance[] = [] as Seance[];
+    private static async _getSeances(): Promise<Seance[]> {
+        let seancesJson: Seance[] = [] as Seance[];
 
         const seancesString = await AsyncStorage.getItem('Seances');
 
-        if(seancesString) {
+        if (seancesString) {
             seancesJson = JSON.parse(seancesString);
         }
 
         return seancesJson;
     }
 
-    public getSeances() : Seance[] {
+    public getSeances(): Seance[] {
         return this.seances;
     }
 
-    public getSeanceByID(idSeance : string) {
+    public getSeanceByID(idSeance: string) {
         const seanceIndex = this.seances.findIndex(s => s.id === idSeance);
 
-        if(seanceIndex === -1) return;
+        if (seanceIndex === -1) return;
 
         return this.seances[seanceIndex];
     }
@@ -42,10 +42,10 @@ export default class SeancesStore {
         )
     }
 
-    public addSeance(seance : Seance) {
+    public addSeance(seance: Seance) {
         const isExisting = this.seances.findIndex(s => s.id === seance?.id);
 
-        if(isExisting > -1) {
+        if (isExisting > -1) {
             this.seances[isExisting] = seance;
             this._setSeances();
             return;
@@ -55,20 +55,20 @@ export default class SeancesStore {
         this._setSeances();
     }
 
-    public addOrUpdateExerciceByID(exercice : Exercice, idSeance : string) {
+    public addOrUpdateExerciceByID(exercice: Exercice, idSeance: string) {
         const seanceIndex = this.seances.findIndex(s => s.id === idSeance);
 
-        if(seanceIndex === -1) return;
+        if (seanceIndex === -1) return;
 
         let seance = this.seances[seanceIndex] as Seance;
 
-        if(!seance.exercices) {
+        if (!seance.exercices) {
             seance.exercices = [] as Exercice[];
         }
 
-        const index = seance.exercices.findIndex((e : Exercice) => e.id === exercice.id);
+        const index = seance.exercices.findIndex((e: Exercice) => e.id === exercice.id);
 
-        if(index) {
+        if (index) {
             seance.exercices[index] = exercice;
             return;
         }
