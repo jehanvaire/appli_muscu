@@ -58,8 +58,8 @@ const Test = () => {
         /**
          * Ajout au store
          */
-        seancesStores.addSeance(_seance);
-        seancesStores.addSeance(_seance2);
+        seancesStores.addOrUpdateSeance(_seance);
+        seancesStores.addOrUpdateSeance(_seance2);
 
         /**
          * Ajout au state pour affichage

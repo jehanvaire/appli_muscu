@@ -43,8 +43,9 @@ export default class SeancesStore {
         )
     }
 
-    public addSeance(seance: Seance) {
+    public addOrUpdateSeance(seance: Seance) {
         const isExisting = this.seances.findIndex(s => s.id === seance?.id);
+
 
         if (isExisting > -1) {
             this.seances[isExisting] = seance;
@@ -75,5 +76,14 @@ export default class SeancesStore {
         }
 
         seance.exercices.push(exercice);
+    }
+
+    public deleteSeance(idSeance: string) {
+        const seanceIndex = this.seances.findIndex(s => s.id === idSeance);
+
+        if (seanceIndex === -1) return;
+
+        this.seances.splice(seanceIndex, 1);
+        this._setSeances();
     }
 }
