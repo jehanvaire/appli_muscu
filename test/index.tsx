@@ -22,7 +22,7 @@ const Test = () => {
     /**
      * Test de création de données
      */
-    const creteFakeData = () => {
+    const creteFakeData = async() => {
         /**
          * Création d'un exercice
          */
@@ -64,7 +64,7 @@ const Test = () => {
         /**
          * Ajout au state pour affichage
          */
-        setSeances(seancesStores.getSeances());
+        setSeances(await seancesStores.getSeances());
         setLoading(false);
     }
 

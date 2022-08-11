@@ -14,7 +14,7 @@ const FormAddSeance = (props: any) => {
     const submit = () => {
         seancesStores.addSeance(seance);
         setSeance({id: uuid.v4() as string} as Seance);
-        props.onClose;
+        props.onClose();
     }
 
 

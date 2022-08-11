@@ -23,8 +23,9 @@ export default class SeancesStore {
         return seancesJson;
     }
 
-    public getSeances(): Seance[] {
-        return this.seances;
+    public async getSeances(): Promise<Seance[]> {
+        await SeancesStore._getSeances();
+        return this?.seances || [] as Seance[];
     }
 
     public getSeanceByID(idSeance: string) {
