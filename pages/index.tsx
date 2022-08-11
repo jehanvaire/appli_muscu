@@ -32,7 +32,7 @@ const Menu = () => {
                 }
                 }/>
 
-            <FormAddSeance isAddSeance={isAddSeance}/>
+            <FormAddSeance isAddSeance={isAddSeance} onClose={() => {setIsAddSeance(false)}}/>
         </View>
     )
 }

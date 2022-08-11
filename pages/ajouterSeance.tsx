@@ -3,7 +3,7 @@ import {Text, View, Button, TextInput} from "react-native";
 import uuid from 'react-native-uuid';
 
 
-import {Exercice, Seance} from "../types";
+import {Seance} from "../types";
 import SeancesStore from "../stores/seancesStore";
 
 const FormAddSeance = (props: any) => {
@@ -14,7 +14,7 @@ const FormAddSeance = (props: any) => {
     const submit = () => {
         seancesStores.addSeance(seance);
         setSeance({id: uuid.v4() as string} as Seance);
-        props.setIsAddSeance(false);
+        props.onClose;
     }
 
 
