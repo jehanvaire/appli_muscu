@@ -7,14 +7,12 @@ import SeancesStore from "../stores/seancesStore";
 
 const FormUpdateSeance = (props: any) => {
     const [seance, setSeance] = useState({...props.seance} as Seance);
-
+    const seancesStores = new SeancesStore;
 
     const submit = () => {
-        const seancesStores = new SeancesStore;
         seancesStores.addOrUpdateSeance(seance);
         props.onSubmit();
     }
-
 
     if (props.isUpdatingSeance) {
         return (
