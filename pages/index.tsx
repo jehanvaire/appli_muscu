@@ -156,8 +156,8 @@ const Menu = () => {
 
                         {seance?.exercices && seance?.exercices?.map((exercice: Exercice) => {
                             return (
-                                <View key={exercice?.id}>
-                                    <Text>{exercice?.nom}</Text>
+                                <View key={exercice?.id} style={styles.exerciceChip}>
+                                    <Text style={styles.exerciceText}>{exercice?.nom}</Text>
                                 </View>
                             )
                         })}
@@ -212,6 +212,24 @@ const styles = StyleSheet.create({
         marginLeft: 'auto', marginRight: 'auto', color: "#fff", fontWeight: 'bold', fontSize: 34
     }, cardViewRecap: {
         marginLeft: 'auto', marginRight: 'auto', color: "#fff", marginBottom: 10
+    },
+    exerciceChip : {
+        paddingVertical : 5,
+        paddingVertical : 5,
+        width : '90%',
+        marginLeft : 'auto',
+        marginRight : 'auto',
+        backgroundColor : '#666',
+        color : '#fff',
+        borderRadius : 8,
+        marginTop: 5,
+        marginBottom : 5,
+        fontWeight : 'bold'
+    },
+    exerciceText : {
+        fontWeight : 'bold',
+        paddingHorizontal: 5,
+        color : '#fff'
     }
 });
 
