@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Text, View, Button, TextInput} from "react-native";
+import {Text, View, Button, TextInput, StyleSheet} from "react-native";
 import uuid from 'react-native-uuid';
 
 
@@ -24,16 +24,16 @@ const FormAddSeance = (props: any) => {
 
     if (props.isAddSeance) {
         return (
-            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                <Text>Créer une séance</Text>
+            <View style={styles.cardView}>
+                <Text style={styles.cardViewTitle}>Créer une séance</Text>
                 <Text>{seance.nom}</Text>
-                <TextInput placeholder="Nom de la séance" onChangeText={value => setSeanceNom(value)}/>
+                <TextInput style={styles.cardViewTextInput} placeholder="Nom de la séance" onChangeText={value => setSeanceNom(value)}/>
 
-                <Button title="Valider" color="#f194ff" onPress={() => {
+                <Button title="Valider" color="green" onPress={() => {
                     submit();
                 }}/>
 
-                <Button title="Annuler" color="#f194ff" onPress={() => {
+                <Button title="Annuler" color="#c20e0e" onPress={() => {
                     props.onClose();
                 }}/>
 
@@ -44,5 +44,35 @@ const FormAddSeance = (props: any) => {
     }
 
 }
+
+const styles = StyleSheet.create({
+    cardView: {
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+        backgroundColor: '#4d4d4d',
+        justifyContent: 'space-between',
+        borderRadius: 8,
+        width: '90%',
+        height: '30%',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginTop: 15,
+        marginBottom: 15
+    },
+    cardViewTitle: {
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "#4d4d4d",
+    },
+    cardViewTextInput: {
+        borderWidth: 1,
+        borderColor: "#f194ff",
+        borderRadius: 10,
+        padding: 10,
+        margin: 10,
+        backgroundColor: "#4d4d4d",
+        color: "#f194ff",
+    },
+});
 
 export default FormAddSeance;

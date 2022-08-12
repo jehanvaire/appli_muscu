@@ -21,6 +21,9 @@ const Menu = () => {
     const [isUpdatingSeance, setIsUpdatingSeance] = useState(false);
     const [seanceToUpdate, setSeanceToUpdate] = useState({} as Seance);
 
+    const [exercices, setExercices] = useState([] as Exercice[]);
+    const [isAddingExercice, setIsAddingExercice] = useState(false);
+
     /**
      * Stores const
      */
@@ -53,6 +56,7 @@ const Menu = () => {
         seancesStores.deleteSeance(idSeance);
         await loadData();
     }
+
 
     const getTitle = () => {
         if(isUpdatingSeance) {
@@ -100,7 +104,7 @@ const Menu = () => {
             <Nav title={getTitle()}/>
 
             <View style={{flex: 3}}>
-                {isAddSeance ? <Text>Créer une séance</Text>
+                {isAddSeance ? null
                     :
                     <View>
                         <CustomButton
@@ -138,6 +142,13 @@ const Menu = () => {
                                     }}/>
 
                                 <Button
+                                    title='Ajouter exercices'
+                                    color='#32a852'
+                                    onPress={() => {
+                                        updateSeance(seance);
+                                    }}/>
+
+                                <Button
                                     color='#c20e0e'
                                     title='Supprimer'
                                     onPress={async() => {
@@ -152,6 +163,10 @@ const Menu = () => {
         </View>)
     }
 }
+
+
+
+
 
 const styles = StyleSheet.create({
     container: {

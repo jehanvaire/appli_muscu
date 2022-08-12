@@ -22,7 +22,7 @@ const FormUpdateSeance = (props: any) => {
                 <Text>Modifier une séance</Text>
                 <Text>{seance.nom}</Text>
                 <TextInput placeholder="Nom de la séance" onChangeText={value => setSeance({...seance, nom: value})}/>
-                <Button title="Valider" color="#f194ff" onPress={() => {
+                <Button title="Valider" onPress={() => {
                     submit();
                 }}/>
 
