@@ -10,6 +10,7 @@ import Nav from "../components/nav";
 import CustomButton from "../components/button";
 import FormAddSeance from "./ajouterSeance";
 import FormUpdateSeance from "./modifSeance";
+import FormAddExercice from "./ajouterExercices"
 
 const Menu = () => {
     /**
@@ -21,7 +22,7 @@ const Menu = () => {
     const [isUpdatingSeance, setIsUpdatingSeance] = useState(false);
     const [seanceToUpdate, setSeanceToUpdate] = useState({} as Seance);
 
-    const [exercices, setExercices] = useState([] as Exercice[]);
+    const [seanceToAddExercice, setSeanceToAddExercice] = useState({} as Seance);
     const [isAddingExercice, setIsAddingExercice] = useState(false);
 
     /**
@@ -42,6 +43,7 @@ const Menu = () => {
         setLoading(true)
         setIsAddSeance(false);
         setIsUpdatingSeance(false);
+        setIsAddingExercice(false);
         await loadData()
     }
 
@@ -57,12 +59,17 @@ const Menu = () => {
         await loadData();
     }
 
+    const addExercice = (seance: Seance) => {
+        setSeanceToAddExercice(seance);
+        setIsAddingExercice(true);
+    }
+
 
     const getTitle = () => {
-        if(isUpdatingSeance) {
+        if (isUpdatingSeance) {
             return 'Modifier une séance'
         }
-        if(isAddSeance) {
+        if (isAddSeance) {
             return 'Créer une séance'
         }
 
@@ -78,99 +85,117 @@ const Menu = () => {
             </Text>
         </View>)
     } else if (isUpdatingSeance) {
-        return (
-            <View style={[styles.container, {
-                flexDirection: "column"
-                }]}>
-
-                <Nav title={getTitle()}/>
-
-                <View style={{flex : 3}}>
-                    <FormUpdateSeance seance={seanceToUpdate} isUpdatingSeance={isUpdatingSeance}
-                                    onSubmit={async () => handleSubmit()}
-                                    onClose={() => {
-                                        setIsUpdatingSeance(false);
-                                        setSeanceToUpdate({} as Seance)
-                                    }}/>
-                </View>
-            </View>
-        )
-    } else {
-        return (
-        <View style={[styles.container, {
+        // afficher le formulaire de modification de séance
+        return (<View style={[styles.container, {
             flexDirection: "column"
-            }]}>
+        }]}>
 
             <Nav title={getTitle()}/>
 
             <View style={{flex: 3}}>
-                {isAddSeance ? null
-                    :
-                    <View>
-                        <CustomButton
-                            title='Ajouter une séance'
-                            onPress={() => {
-                                setIsAddSeance(!isAddSeance);
-                            }}/>
-                    </View>}
+                <FormUpdateSeance seance={seanceToUpdate} isUpdatingSeance={isUpdatingSeance}
+                                  onSubmit={async () => handleSubmit()}
+                                  onClose={() => {
+                                      setIsUpdatingSeance(false);
+                                      setSeanceToUpdate({} as Seance)
+                                  }}/>
+            </View>
+        </View>)
+
+    } else if (isAddingExercice) {
+        // afficher le formulaire d'ajout d'exercices
+        return (
+            <View style={[styles.container, {
+                flexDirection: "column"
+            }]}>
+
+                <Nav title={getTitle()}/>
+
+                <View style={{flex: 3}}>
+                    <FormAddExercice seance={seanceToAddExercice} isAddingExercice={isAddingExercice}
+                                     onSubmit={async () => handleSubmit()}
+                                     onClose={() => {
+                                         setIsAddingExercice(false);
+                                         setSeanceToAddExercice({} as Seance)
+                                     }}
+                    />
+                </View>
+            </View>
+        )
+
+
+    } else {
+        // else afficher séances
+        return (<View style={[styles.container, {
+            flexDirection: "column"
+        }]}>
+
+            <Nav title={getTitle()}/>
+
+            <View style={{flex: 3}}>
+                {isAddSeance ? null : <View>
+                    <CustomButton
+                        title='Ajouter une séance'
+                        onPress={() => {
+                            setIsAddSeance(!isAddSeance);
+                        }}/>
+                </View>}
 
                 {isUpdatingSeance ? <Text>Modifier une séance</Text> : null}
 
 
                 <FormAddSeance isAddSeance={isAddSeance} onSubmit={async () => handleSubmit()}
-                            onClose={() => setIsAddSeance(false)}/>
+                               onClose={() => setIsAddSeance(false)}/>
 
                 {seances !== undefined && seances.map((seance: Seance) => {
-                    return (
-                        <View key={seance?.id} style={styles.cardView}>
-                            <Text style={styles.cardViewTitle}>{seance?.nom}</Text>
-                            <Text style={styles.cardViewRecap}>{seance?.exercices?.length ?
-                                'La séance contient ' + seance?.exercices?.length + 'exercices'
-                                :
-                                "Cette séance n'a pas encore d'exercice"}
-                            </Text>
+                    return (<View key={seance?.id} style={styles.cardView}>
+                        <Text style={styles.cardViewTitle}>{seance?.nom}</Text>
+                        <Text
+                            style={styles.cardViewRecap}>{seance?.exercices?.length ? 'La séance contient ' + seance?.exercices?.length + ' exercices' : "Cette séance n'a pas encore d'exercice"}
+                        </Text>
 
-                            <View style={{
-                                flex: 1,
-                                flexDirection: "row",
-                                justifyContent: "space-around",
-                            }}>
-                                <Button
-                                    title='Modifier'
-                                    onPress={() => {
-                                        updateSeance(seance);
-                                    }}/>
+                        {seance?.exercices && seance?.exercices?.map((exercice: Exercice) => {
+                            return (
+                                <View key={exercice?.id}>
+                                    <Text>{exercice?.nom}</Text>
+                                </View>
+                            )
+                        })}
 
-                                <Button
-                                    title='Ajouter exercices'
-                                    color='#32a852'
-                                    onPress={() => {
-                                        updateSeance(seance);
-                                    }}/>
+                        <View style={{
+                            flex: 1, flexDirection: "row", justifyContent: "space-around",
+                        }}>
+                            <Button
+                                title='Modifier'
+                                onPress={() => {
+                                    updateSeance(seance);
+                                }}/>
 
-                                <Button
-                                    color='#c20e0e'
-                                    title='Supprimer'
-                                    onPress={async() => {
-                                        await deleteSeance(seance.id);
-                                    }}/>
-                            </View>
+                            <Button
+                                title='Ajouter exercices'
+                                color='#32a852'
+                                onPress={() => {
+                                    addExercice(seance);
+                                }}/>
 
+                            <Button
+                                color='#c20e0e'
+                                title='Supprimer'
+                                onPress={async () => {
+                                    await deleteSeance(seance.id);
+                                }}/>
                         </View>
-                    )
+
+                    </View>)
                 })}
             </View>
         </View>)
     }
 }
 
-
-
-
-
 const styles = StyleSheet.create({
     container: {
-      flex: 1
+        flex: 1
     },
 
     cardView: {
@@ -183,20 +208,11 @@ const styles = StyleSheet.create({
         marginRight: 'auto',
         marginTop: 15,
         marginBottom: 15
-    },
-    cardViewTitle: {
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        color: "#fff",
-        fontWeight: 'bold',
-        fontSize: 34
-    },
-    cardViewRecap: {
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        color: "#fff",
-        marginBottom: 10
+    }, cardViewTitle: {
+        marginLeft: 'auto', marginRight: 'auto', color: "#fff", fontWeight: 'bold', fontSize: 34
+    }, cardViewRecap: {
+        marginLeft: 'auto', marginRight: 'auto', color: "#fff", marginBottom: 10
     }
-  });
+});
 
 export default Menu;

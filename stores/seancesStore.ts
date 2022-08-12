@@ -57,7 +57,7 @@ export default class SeancesStore {
         this._setSeances();
     }
 
-    public addOrUpdateExerciceByID(exercice: Exercice, idSeance: string) {
+    public async addOrUpdateExerciceByID(exercice: Exercice, idSeance: string) {
         const seanceIndex = this.seances.findIndex(s => s.id === idSeance);
 
         if (seanceIndex === -1) return;
@@ -70,12 +70,16 @@ export default class SeancesStore {
 
         const index = seance.exercices.findIndex((e: Exercice) => e.id === exercice.id);
 
-        if (index) {
+        if (index > -1) {
             seance.exercices[index] = exercice;
+            this.addOrUpdateSeance(seance);
+            await this._setSeances();
             return;
         }
 
         seance.exercices.push(exercice);
+        this.addOrUpdateSeance(seance);
+        await this._setSeances();
     }
 
     public deleteSeance(idSeance: string) {
@@ -87,3 +91,5 @@ export default class SeancesStore {
         this._setSeances();
     }
 }
+
+
