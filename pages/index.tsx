@@ -1,11 +1,14 @@
 import React, {useState} from "react";
-import {Text, View, Button, TextInput} from "react-native";
+import {Text, View, StyleSheet, Button} from "react-native";
 
 // Imports stores et types
 import {Exercice, Seance} from "../types";
 import SeancesStore from "../stores/seancesStore";
+
+// Import components, pages et style
+import Nav from "../components/nav";
+import CustomButton from "../components/button";
 import FormAddSeance from "./ajouterSeance";
-import FormModifSeance from "./modifSeance";
 import FormUpdateSeance from "./modifSeance";
 
 const Menu = () => {
@@ -51,6 +54,17 @@ const Menu = () => {
         await loadData();
     }
 
+    const getTitle = () => {
+        if(isUpdatingSeance) {
+            return 'Modifier une séance'
+        }
+        if(isAddSeance) {
+            return 'Créer une séance'
+        }
+
+        return 'Vos séances'
+    }
+
     if (loading) {
         loadData();
 
@@ -61,57 +75,113 @@ const Menu = () => {
         </View>)
     } else if (isUpdatingSeance) {
         return (
-            <FormUpdateSeance seance={seanceToUpdate} isUpdatingSeance={isUpdatingSeance}
-                              onSubmit={async () => handleSubmit()}
-                              onClose={() => {
-                                  setIsUpdatingSeance(false);
-                                  setSeanceToUpdate({} as Seance)
-                              }}/>
+            <View style={[styles.container, {
+                flexDirection: "column"
+                }]}>
+
+                <Nav title={getTitle()}/>
+
+                <View style={{flex : 3}}>
+                    <FormUpdateSeance seance={seanceToUpdate} isUpdatingSeance={isUpdatingSeance}
+                                    onSubmit={async () => handleSubmit()}
+                                    onClose={() => {
+                                        setIsUpdatingSeance(false);
+                                        setSeanceToUpdate({} as Seance)
+                                    }}/>
+                </View>
+            </View>
         )
     } else {
-        return (<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        return (
+        <View style={[styles.container, {
+            flexDirection: "column"
+            }]}>
 
-            {isAddSeance ? <Text>Créer une séance</Text>
-                :
-                <View>
-                    <Button
-                        title='Ajouter une séance'
-                        color="#f194ff"
-                        onPress={() => {
-                            setIsAddSeance(!isAddSeance);
-                        }}/>
-                </View>}
+            <Nav title={getTitle()}/>
 
-            {isUpdatingSeance ? <Text>Modifier une séance</Text> : null}
-
-
-            <FormAddSeance isAddSeance={isAddSeance} onSubmit={async () => handleSubmit()}
-                           onClose={() => setIsAddSeance(false)}/>
-
-            {seances !== undefined && seances.map((seance: Seance) => {
-                return (
-                    <View key={seance?.id}>
-                        <Text>{seance?.nom}</Text>
-                        <Button
-                            title='Modifier'
-                            color="#f194ff"
+            <View style={{flex: 3}}>
+                {isAddSeance ? <Text>Créer une séance</Text>
+                    :
+                    <View>
+                        <CustomButton
+                            title='Ajouter une séance'
                             onPress={() => {
-                                updateSeance(seance);
+                                setIsAddSeance(!isAddSeance);
                             }}/>
+                    </View>}
 
-                        <Button
-                            title='Supprimer'
-                            color="red"
-                            onPress={async() => {
-                                await deleteSeance(seance.id);
-                            }}/>
+                {isUpdatingSeance ? <Text>Modifier une séance</Text> : null}
 
-                    </View>
-                )
-            })}
+
+                <FormAddSeance isAddSeance={isAddSeance} onSubmit={async () => handleSubmit()}
+                            onClose={() => setIsAddSeance(false)}/>
+
+                {seances !== undefined && seances.map((seance: Seance) => {
+                    return (
+                        <View key={seance?.id} style={styles.cardView}>
+                            <Text style={styles.cardViewTitle}>{seance?.nom}</Text>
+                            <Text style={styles.cardViewRecap}>{seance?.exercices?.length ?
+                                'La séance contient ' + seance?.exercices?.length + 'exercices'
+                                :
+                                "Cette séance n'a pas encore d'exercice"}
+                            </Text>
+
+                            <View style={{
+                                flex: 1,
+                                flexDirection: "row",
+                                justifyContent: "space-around",
+                            }}>
+                                <Button
+                                    title='Modifier'
+                                    onPress={() => {
+                                        updateSeance(seance);
+                                    }}/>
+
+                                <Button
+                                    color='#c20e0e'
+                                    title='Supprimer'
+                                    onPress={async() => {
+                                        await deleteSeance(seance.id);
+                                    }}/>
+                            </View>
+
+                        </View>
+                    )
+                })}
+            </View>
         </View>)
-
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1
+    },
+
+    cardView: {
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+        backgroundColor: '#4d4d4d',
+        borderRadius: 8,
+        width: '90%',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginTop: 15,
+        marginBottom: 15
+    },
+    cardViewTitle: {
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        color: "#fff",
+        fontWeight: 'bold',
+        fontSize: 34
+    },
+    cardViewRecap: {
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        color: "#fff",
+        marginBottom: 10
+    }
+  });
 
 export default Menu;

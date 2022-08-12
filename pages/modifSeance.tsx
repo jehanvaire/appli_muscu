@@ -18,7 +18,7 @@ const FormUpdateSeance = (props: any) => {
 
     if (props.isUpdatingSeance) {
         return (
-            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+            <View>
                 <Text>Modifier une séance</Text>
                 <Text>{seance.nom}</Text>
                 <TextInput placeholder="Nom de la séance" onChangeText={value => setSeance({...seance, nom: value})}/>
