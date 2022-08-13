@@ -11,14 +11,34 @@ const FormAddExercice = (props: any) => {
     const [exercice, setExercice] = useState({id: uuid.v4() as string} as Exercice);
     const seancesStores = new SeancesStore;
 
+    const [errorNom, setErrorNom] = useState(true);
+    const [errorNbSeries, setErrorNbSeries] = useState(true);
+    const [errorNbRepetition, setErrorNbRepetition] = useState(true);
+    const [errorIntensite, setErrorIntensite] = useState(true);
+    const [errorCharge, setErrorCharge] = useState(true);
+    const [errorTemps, setErrorTemps] = useState(true);
+
+
     const submit = async () => {
-        await seancesStores.addOrUpdateExerciceByID(exercice, props.seance.id);
-        setExercice({id: uuid.v4() as string} as Exercice);
-        props.onSubmit();
+        if (!errorNbSeries || !errorNbRepetition || !errorIntensite || !errorCharge || !errorTemps) {
+            await seancesStores.addOrUpdateExerciceByID(exercice, props.seance.id);
+            setExercice({id: uuid.v4() as string} as Exercice);
+            props.onSubmit();
+        }
+        else {
+            return;
+        }
     }
 
     const setExerciceNom = (nom: string) => {
         setExercice({...exercice, nom: nom});
+
+        if (nom.length > 0) {
+            setErrorNom(false);
+        }
+        else {
+            setErrorNom(true);
+        }
     }
 
     const setExerciceDescription = (description: string) => {
@@ -28,42 +48,58 @@ const FormAddExercice = (props: any) => {
     const setExerciceNbSeries = (nbSeries: number) => {
         setExercice({...exercice, nbSeries: Number(nbSeries)});
 
-        if (isNaN(Number(nbSeries))) {
-            // TODO: mettre message d'erreur sous le textinput
-            alert("Veuillez entrer un nombre");
+        nbSeries = Math.round(nbSeries);
+
+        if (isNaN(Number(nbSeries)) || nbSeries === 0) {
+            setErrorNbSeries(true);
+        } else {
+            setErrorNbSeries(false);
         }
     }
 
     const setExerciceNbRepetitions = (nbRepetitions: number) => {
         setExercice({...exercice, nbRepetitions: nbRepetitions});
-        if (isNaN(Number(nbRepetitions))) {
-            // TODO: mettre message d'erreur sous le textinput
-            alert("Veuillez entrer un nombre");
+
+        nbRepetitions = Math.round(nbRepetitions);
+
+        if (isNaN(Number(nbRepetitions)) || nbRepetitions === 0) {
+            setErrorNbRepetition(true);
+        } else {
+            setErrorNbRepetition(false);
         }
     }
 
     const setExerciceIntensite = (intensite: number) => {
         setExercice({...exercice, intensite: intensite});
 
-        if (isNaN(Number(intensite))) {
-            // TODO: mettre message d'erreur sous le textinput
-            alert("Veuillez entrer un nombre");
+        intensite = Math.round(intensite);
+
+        if (isNaN(Number(intensite)) || intensite === 0) {
+            setErrorIntensite(true);
+        } else {
+            setErrorIntensite(false);
         }
     }
 
     const setExerciceCharge = (charge: number) => {
         setExercice({...exercice, charge: charge});
-        if (isNaN(Number(charge))) {
-            // TODO: mettre message d'erreur sous le textinput
-            alert("Veuillez entrer un nombre");
+
+        if (isNaN(Number(charge)) || charge === 0) {
+            setErrorCharge(true);
+        } else {
+            setErrorCharge(false);
         }
     }
 
     const setExerciceTempsRepos = (tempsRepos: number) => {
         setExercice({...exercice, tempsRepos: tempsRepos});
-        if (isNaN(Number(tempsRepos))) {
-            // TODO: mettre message d'erreur sous le textinput
-            alert("Veuillez entrer un nombre");
+
+        tempsRepos = Math.round(tempsRepos);
+
+        if (isNaN(Number(tempsRepos)) || tempsRepos === 0) {
+            setErrorTemps(true);
+        } else {
+            setErrorTemps(false);
         }
     }
 
@@ -75,8 +111,6 @@ const FormAddExercice = (props: any) => {
         setExercice({...exercice, sensation: sensation});
     }
 
-
-
     if (props.isAddingExercice) {
         return (
             <View style={styles.cardView}>
@@ -86,31 +120,40 @@ const FormAddExercice = (props: any) => {
                            onChangeText={value => setExerciceNom(value)}/>
 
                 <TextInput style={styles.cardViewTextInput} placeholder="Description de l'exercice"
-                            onChangeText={value => setExerciceDescription(value)}/>
+                           onChangeText={value => setExerciceDescription(value)}/>
 
+                {errorNbSeries ? <Text style={styles.cardViewError}>Nombre de séries incorrect</Text> : null}
                 <TextInput style={styles.cardViewTextInput} placeholder="Nombre de séries"
-                            onChangeText={value => setExerciceNbSeries(parseInt(value))}/>
+                           onChangeText={value => setExerciceNbSeries(parseInt(value))}
+                           keyboardType='numeric'/>
 
+                {errorNbRepetition ? <Text style={styles.cardViewError}>Nombre de répétitions incorrect</Text> : null}
                 <TextInput style={styles.cardViewTextInput} placeholder="Nombre de répétitions"
-                            onChangeText={value => setExerciceNbRepetitions(parseInt(value))}/>
+                           onChangeText={value => setExerciceNbRepetitions(parseInt(value))}
+                           keyboardType='numeric'/>
 
+                {errorIntensite ? <Text style={styles.cardViewError}>Intensité incorrecte</Text> : null}
                 <TextInput style={styles.cardViewTextInput} placeholder="Intensité"
-                            onChangeText={value => setExerciceIntensite(parseInt(value))}/>
+                           onChangeText={value => setExerciceIntensite(parseInt(value))}
+                           keyboardType='numeric'/>
 
+                {errorCharge ? <Text style={styles.cardViewError}>Charge incorrecte</Text> : null}
                 <TextInput style={styles.cardViewTextInput} placeholder="Charge"
-                            onChangeText={value => setExerciceCharge(parseInt(value))}/>
+                           onChangeText={value => setExerciceCharge(parseInt(value))}
+                           keyboardType='numeric'/>
 
+                {errorTemps ? <Text style={styles.cardViewError}>Temps de repos incorrect</Text> : null}
                 <TextInput style={styles.cardViewTextInput} placeholder="Temps de repos"
-                            onChangeText={value => setExerciceTempsRepos(parseInt(value))}/>
+                           onChangeText={value => setExerciceTempsRepos(parseInt(value))}
+                           keyboardType='numeric'/>
 
                 <TextInput style={styles.cardViewTextInput} placeholder="Tempos"
-                            onChangeText={value => setExerciceTempos(value)}/>
+                           onChangeText={value => setExerciceTempos(value)}/>
 
                 <TextInput style={styles.cardViewTextInput} placeholder="Sensation"
-                            onChangeText={value => setExerciceSensation(value)}/>
+                           onChangeText={value => setExerciceSensation(value)}/>
 
-
-                <Button title="Créer" color="green" onPress={async() => {
+                <Button title="Créer" color="green" onPress={async () => {
                     await submit();
                 }
                 }/>
@@ -153,6 +196,12 @@ const styles = StyleSheet.create({
         backgroundColor: "#4d4d4d",
         color: "#f194ff",
     },
+    cardViewError: {
+        color: "red",
+        fontSize: 12,
+        marginLeft: 10,
+        marginBottom: 10,
+    }
 });
 
 export default FormAddExercice;

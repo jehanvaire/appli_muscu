@@ -259,20 +259,20 @@ const styles = StyleSheet.create({
     }, cardViewRecap: {
         marginLeft: 'auto', marginRight: 'auto', color: "#fff", marginBottom: 10
     },
-    exerciceChip : {
-        paddingVertical : 5,
-        width : '90%',
-        marginLeft : 'auto',
-        marginRight : 'auto',
-        backgroundColor : '#666',
-        color : '#fff',
-        borderRadius : 8,
+    exerciceChip: {
+        paddingVertical: 5,
+        width: '90%',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        backgroundColor: '#666',
+        color: '#fff',
+        borderRadius: 8,
         marginTop: 5,
-        marginBottom : 5,
-        fontWeight : 'bold'
+        marginBottom: 5,
+        fontWeight: 'bold'
     },
-    exerciceText : {
-        fontWeight : 'bold',
+    exerciceText: {
+        fontWeight: 'bold',
         paddingHorizontal: 5,
         color : '#fff'
     },
