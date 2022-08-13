@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Text, View, StyleSheet, Button} from "react-native";
+import {Text, View, StyleSheet, Button, ScrollView} from "react-native";
 
 // Imports stores et types
 import {Exercice, Seance} from "../types";
@@ -148,47 +148,49 @@ const Menu = () => {
                 <FormAddSeance isAddSeance={isAddSeance} onSubmit={async () => handleSubmit()}
                                onClose={() => setIsAddSeance(false)}/>
 
-                {seances !== undefined && seances.map((seance: Seance) => {
-                    return (<View key={seance?.id} style={styles.cardView}>
-                        <Text style={styles.cardViewTitle}>{seance?.nom}</Text>
-                        <Text
-                            style={styles.cardViewRecap}>{seance?.exercices?.length ? 'La séance contient ' + seance?.exercices?.length + ' exercices' : "Cette séance n'a pas encore d'exercice"}
-                        </Text>
+                <ScrollView>
+                    {seances !== undefined && seances.map((seance: Seance) => {
+                        return (<View key={seance?.id} style={styles.cardView}>
+                            <Text style={styles.cardViewTitle}>{seance?.nom}</Text>
+                            <Text
+                                style={styles.cardViewRecap}>{seance?.exercices?.length ? 'La séance contient ' + seance?.exercices?.length + ' exercices' : "Cette séance n'a pas encore d'exercice"}
+                            </Text>
 
-                        {seance?.exercices && seance?.exercices?.map((exercice: Exercice) => {
-                            return (
-                                <View key={exercice?.id} style={styles.exerciceChip}>
-                                    <Text style={styles.exerciceText}>{exercice?.nom}</Text>
-                                </View>
-                            )
-                        })}
+                            {seance?.exercices && seance?.exercices?.map((exercice: Exercice) => {
+                                return (
+                                    <View key={exercice?.id} style={styles.exerciceChip}>
+                                        <Text style={styles.exerciceText}>{exercice?.nom}</Text>
+                                    </View>
+                                )
+                            })}
 
-                        <View style={{
-                            flex: 1, flexDirection: "row", justifyContent: "space-around",
-                        }}>
-                            <Button
-                                title='Modifier'
-                                onPress={() => {
-                                    updateSeance(seance);
-                                }}/>
+                            <View style={{
+                                flex: 1, flexDirection: "row", justifyContent: "space-around",
+                            }}>
+                                <Button
+                                    title='Modifier'
+                                    onPress={() => {
+                                        updateSeance(seance);
+                                    }}/>
 
-                            <Button
-                                title='Ajouter exercices'
-                                color='#32a852'
-                                onPress={() => {
-                                    addExercice(seance);
-                                }}/>
+                                <Button
+                                    title='Ajouter exercices'
+                                    color='#32a852'
+                                    onPress={() => {
+                                        addExercice(seance);
+                                    }}/>
 
-                            <Button
-                                color='#c20e0e'
-                                title='Supprimer'
-                                onPress={async () => {
-                                    await deleteSeance(seance.id);
-                                }}/>
-                        </View>
+                                <Button
+                                    color='#c20e0e'
+                                    title='Supprimer'
+                                    onPress={async () => {
+                                        await deleteSeance(seance.id);
+                                    }}/>
+                            </View>
 
-                    </View>)
-                })}
+                        </View>)
+                    })}
+                </ScrollView>
             </View>
         </View>)
     }
