@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Text, View, StyleSheet, Button, TextInput} from "react-native";
+import {Text, View, StyleSheet, Button, TextInput, ScrollView} from "react-native";
 
 // Imports stores et types
 import {Exercice, Seance} from "../types";
@@ -17,17 +17,21 @@ const FormAddExercice = (props: any) => {
     const [errorIntensite, setErrorIntensite] = useState(true);
     const [errorCharge, setErrorCharge] = useState(true);
     const [errorTemps, setErrorTemps] = useState(true);
+    const [globalErrorMessage, setGlobalErrorMessage] = useState('');
 
 
     const submit = async () => {
+        setGlobalErrorMessage('');
+
         if (!errorNbSeries || !errorNbRepetition || !errorIntensite || !errorCharge || !errorTemps) {
             await seancesStores.addOrUpdateExerciceByID(exercice, props.seance.id);
             setExercice({id: uuid.v4() as string} as Exercice);
             props.onSubmit();
-        }
-        else {
             return;
         }
+
+        setGlobalErrorMessage('Des champs sont erreurs');
+        return;
     }
 
     const setExerciceNom = (nom: string) => {
@@ -113,9 +117,10 @@ const FormAddExercice = (props: any) => {
 
     if (props.isAddingExercice) {
         return (
-            <View style={styles.cardView}>
+            <ScrollView style={styles.cardView}>
                 <Text style={styles.cardViewTitle}>Créer un exercice</Text>
-                <Text>{exercice.nom}</Text>
+                {globalErrorMessage ? <Text style={styles.cardViewError}>{globalErrorMessage}</Text> : null}
+
                 <TextInput style={styles.cardViewTextInput} placeholder="Nom de l'exercice"
                            onChangeText={value => setExerciceNom(value)}/>
 
@@ -153,15 +158,22 @@ const FormAddExercice = (props: any) => {
                 <TextInput style={styles.cardViewTextInput} placeholder="Sensation"
                            onChangeText={value => setExerciceSensation(value)}/>
 
-                <Button title="Créer" color="green" onPress={async () => {
-                    await submit();
-                }
-                }/>
-                <Button title="Annuler" color="#c20e0e" onPress={() => {
-                    props.onClose();
-                }
-                }/>
-            </View>
+
+                <View style={[styles.btnWrapper, {
+                        flexDirection: "row"
+                    }]}>
+                    <View style={styles.btn}>
+                        <Button title="Créer" color="green" onPress={async () => {
+                            await submit();
+                        }}/>
+                    </View>
+                    <View style={styles.btn}>
+                        <Button title="Annuler" color="#c20e0e" onPress={() => {
+                            props.onClose();
+                        }}/>
+                    </View>
+                </View>
+            </ScrollView>
         )
     } else {
         return null;
@@ -173,7 +185,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 10,
         backgroundColor: '#4d4d4d',
-        justifyContent: 'space-between',
         borderRadius: 8,
         width: '90%',
         height: '30%',
@@ -183,9 +194,11 @@ const styles = StyleSheet.create({
         marginBottom: 15
     },
     cardViewTitle: {
+        marginLeft: 'auto',
+        marginRight: 'auto',
         fontSize: 20,
         fontWeight: "bold",
-        color: "#4d4d4d",
+        color: '#fff',
     },
     cardViewTextInput: {
         borderWidth: 1,
@@ -201,6 +214,16 @@ const styles = StyleSheet.create({
         fontSize: 12,
         marginLeft: 10,
         marginBottom: 10,
+    },
+    btnWrapper : {
+        flex: 1,
+        justifyContent: "center",
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+    },
+    btn : {
+        paddingHorizontal: 5,
+        paddingVertical: 5,
     }
 });
 

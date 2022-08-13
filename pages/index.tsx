@@ -44,6 +44,7 @@ const Menu = () => {
     }
 
     async function handleSubmit() {
+        setToOpenPanel(-1);
         setLoading(true)
         setIsAddSeance(false);
         setIsUpdatingSeance(false);
@@ -59,6 +60,7 @@ const Menu = () => {
     const deleteSeance = async (idSeance?: string) => {
         if (idSeance === undefined) return;
 
+        setToOpenPanel(-1);
         seancesStores.deleteSeance(idSeance);
         await loadData();
     }
@@ -113,7 +115,8 @@ const Menu = () => {
                                   onSubmit={async () => handleSubmit()}
                                   onClose={() => {
                                       setIsUpdatingSeance(false);
-                                      setSeanceToUpdate({} as Seance)
+                                      setSeanceToUpdate({} as Seance);
+                                      setToOpenPanel(-1);
                                   }}/>
             </View>
         </View>)
@@ -133,8 +136,9 @@ const Menu = () => {
                     <FormAddExercice seance={seanceToAddExercice} isAddingExercice={isAddingExercice}
                                      onSubmit={async () => handleSubmit()}
                                      onClose={() => {
-                                         setIsAddingExercice(false);
-                                         setSeanceToAddExercice({} as Seance)
+                                        setIsAddingExercice(false);
+                                        setSeanceToAddExercice({} as Seance);
+                                        setToOpenPanel(-1);
                                      }}
                     />
                 </View>
@@ -170,6 +174,7 @@ const Menu = () => {
                         title='Ajouter une séance'
                         onPress={() => {
                             setIsAddSeance(!isAddSeance);
+                            setToOpenPanel(-1);
                         }}/>
                 </View>}
 
@@ -177,7 +182,10 @@ const Menu = () => {
 
 
                 <FormAddSeance isAddSeance={isAddSeance} onSubmit={async () => handleSubmit()}
-                               onClose={() => setIsAddSeance(false)}/>
+                               onClose={() => {
+                                    setIsAddSeance(false);
+                                    setToOpenPanel(-1);
+                            }}/>
 
                 <ScrollView>
                     {seances !== undefined && seances.map((seance: Seance, index : number) => {
@@ -232,7 +240,7 @@ const Menu = () => {
                             : null }
 
                         </TouchableOpacity>)
-                    })}
+                    }).reverse()}
                 </ScrollView>
             </View>
         </View>)
