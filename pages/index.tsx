@@ -25,6 +25,7 @@ const Menu = () => {
     const [seanceToAddExercice, setSeanceToAddExercice] = useState({} as Seance);
     const [isAddingExercice, setIsAddingExercice] = useState(false);
 
+
     /**
      * Stores const
      */
@@ -214,7 +215,6 @@ const styles = StyleSheet.create({
         marginLeft: 'auto', marginRight: 'auto', color: "#fff", marginBottom: 10
     },
     exerciceChip : {
-        paddingVertical : 5,
         paddingVertical : 5,
         width : '90%',
         marginLeft : 'auto',

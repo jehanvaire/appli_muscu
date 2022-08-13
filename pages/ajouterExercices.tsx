@@ -21,6 +21,62 @@ const FormAddExercice = (props: any) => {
         setExercice({...exercice, nom: nom});
     }
 
+    const setExerciceDescription = (description: string) => {
+        setExercice({...exercice, description: description});
+    }
+
+    const setExerciceNbSeries = (nbSeries: number) => {
+        setExercice({...exercice, nbSeries: Number(nbSeries)});
+
+        if (isNaN(Number(nbSeries))) {
+            // TODO: mettre message d'erreur sous le textinput
+            alert("Veuillez entrer un nombre");
+        }
+    }
+
+    const setExerciceNbRepetitions = (nbRepetitions: number) => {
+        setExercice({...exercice, nbRepetitions: nbRepetitions});
+        if (isNaN(Number(nbRepetitions))) {
+            // TODO: mettre message d'erreur sous le textinput
+            alert("Veuillez entrer un nombre");
+        }
+    }
+
+    const setExerciceIntensite = (intensite: number) => {
+        setExercice({...exercice, intensite: intensite});
+
+        if (isNaN(Number(intensite))) {
+            // TODO: mettre message d'erreur sous le textinput
+            alert("Veuillez entrer un nombre");
+        }
+    }
+
+    const setExerciceCharge = (charge: number) => {
+        setExercice({...exercice, charge: charge});
+        if (isNaN(Number(charge))) {
+            // TODO: mettre message d'erreur sous le textinput
+            alert("Veuillez entrer un nombre");
+        }
+    }
+
+    const setExerciceTempsRepos = (tempsRepos: number) => {
+        setExercice({...exercice, tempsRepos: tempsRepos});
+        if (isNaN(Number(tempsRepos))) {
+            // TODO: mettre message d'erreur sous le textinput
+            alert("Veuillez entrer un nombre");
+        }
+    }
+
+    const setExerciceTempos = (tempos: string) => {
+        setExercice({...exercice, tempos: tempos});
+    }
+
+    const setExerciceSensation = (sensation: string) => {
+        setExercice({...exercice, sensation: sensation});
+    }
+
+
+
     if (props.isAddingExercice) {
         return (
             <View style={styles.cardView}>
@@ -28,7 +84,33 @@ const FormAddExercice = (props: any) => {
                 <Text>{exercice.nom}</Text>
                 <TextInput style={styles.cardViewTextInput} placeholder="Nom de l'exercice"
                            onChangeText={value => setExerciceNom(value)}/>
-                <Button title="Valider" color="green" onPress={async() => {
+
+                <TextInput style={styles.cardViewTextInput} placeholder="Description de l'exercice"
+                            onChangeText={value => setExerciceDescription(value)}/>
+
+                <TextInput style={styles.cardViewTextInput} placeholder="Nombre de séries"
+                            onChangeText={value => setExerciceNbSeries(parseInt(value))}/>
+
+                <TextInput style={styles.cardViewTextInput} placeholder="Nombre de répétitions"
+                            onChangeText={value => setExerciceNbRepetitions(parseInt(value))}/>
+
+                <TextInput style={styles.cardViewTextInput} placeholder="Intensité"
+                            onChangeText={value => setExerciceIntensite(parseInt(value))}/>
+
+                <TextInput style={styles.cardViewTextInput} placeholder="Charge"
+                            onChangeText={value => setExerciceCharge(parseInt(value))}/>
+
+                <TextInput style={styles.cardViewTextInput} placeholder="Temps de repos"
+                            onChangeText={value => setExerciceTempsRepos(parseInt(value))}/>
+
+                <TextInput style={styles.cardViewTextInput} placeholder="Tempos"
+                            onChangeText={value => setExerciceTempos(value)}/>
+
+                <TextInput style={styles.cardViewTextInput} placeholder="Sensation"
+                            onChangeText={value => setExerciceSensation(value)}/>
+
+
+                <Button title="Créer" color="green" onPress={async() => {
                     await submit();
                 }
                 }/>

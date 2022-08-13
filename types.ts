@@ -1,6 +1,7 @@
 export interface Exercice {
     id? : string,
     nom? : string,
+    description? : string,
     nbSeries? : number,
     nbRepetitions? : number,
     intensite? : number,
