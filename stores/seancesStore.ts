@@ -82,13 +82,32 @@ export default class SeancesStore {
         await this._setSeances();
     }
 
-    public deleteSeance(idSeance: string) {
+    public async deleteSeance(idSeance: string) {
         const seanceIndex = this.seances.findIndex(s => s.id === idSeance);
 
         if (seanceIndex === -1) return;
 
         this.seances.splice(seanceIndex, 1);
-        this._setSeances();
+        await this._setSeances();
+    }
+
+    public async deleteExerciceByID(exercice : Exercice, idSeance : string) {
+        const seanceIndex = this.seances.findIndex(s => s.id === idSeance);
+
+        if(seanceIndex === -1) return;
+
+        let seance = this.seances[seanceIndex] as Seance;
+
+        if(!seance.exercices) return;
+
+        const exerciceIndex = seance.exercices.findIndex(e => e.id === exercice.id);
+
+        if(exerciceIndex === -1) return;
+
+        seance.exercices.splice(exerciceIndex, 1);
+
+        this.addOrUpdateSeance(seance);
+        await this._setSeances();
     }
 }
 
