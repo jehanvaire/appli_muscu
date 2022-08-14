@@ -112,12 +112,16 @@ const Menu = () => {
 
             <View style={{flex: 3}}>
                 <FormUpdateSeance seance={seanceToUpdate} isUpdatingSeance={isUpdatingSeance}
-                                  onSubmit={async () => handleSubmit()}
-                                  onClose={() => {
-                                      setIsUpdatingSeance(false);
-                                      setSeanceToUpdate({} as Seance);
-                                      setToOpenPanel(-1);
-                                  }}/>
+                                onSubmit={async () => handleSubmit()}
+                                onClose={() => {
+                                    setIsUpdatingSeance(false);
+                                    setSeanceToUpdate({} as Seance);
+                                    setToOpenPanel(-1);
+                                }}
+                                reloadData={async() => {
+                                    await loadData();
+                                }}
+                                />
             </View>
         </View>)
 

@@ -91,7 +91,7 @@ export default class SeancesStore {
         await this._setSeances();
     }
 
-    public async deleteExerciceByID(exercice : Exercice, idSeance : string) {
+    public async deleteExerciceByID(exercice : Exercice, idSeance : string) : Promise<Seance | undefined> {
         const seanceIndex = this.seances.findIndex(s => s.id === idSeance);
 
         if(seanceIndex === -1) return;
@@ -108,6 +108,8 @@ export default class SeancesStore {
 
         this.addOrUpdateSeance(seance);
         await this._setSeances();
+
+        return seance;
     }
 }
 
