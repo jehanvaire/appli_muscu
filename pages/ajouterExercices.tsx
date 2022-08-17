@@ -14,7 +14,6 @@ const FormAddExercice = (props: any) => {
     const [errorNom, setErrorNom] = useState(true);
     const [errorNbSeries, setErrorNbSeries] = useState(true);
     const [errorNbRepetition, setErrorNbRepetition] = useState(true);
-    const [errorIntensite, setErrorIntensite] = useState(true);
     const [errorCharge, setErrorCharge] = useState(true);
     const [errorTemps, setErrorTemps] = useState(true);
     const [globalErrorMessage, setGlobalErrorMessage] = useState('');
@@ -23,7 +22,7 @@ const FormAddExercice = (props: any) => {
     const submit = async () => {
         setGlobalErrorMessage('');
 
-        if (!errorNbSeries || !errorNbRepetition || !errorIntensite || !errorCharge || !errorTemps) {
+        if (!errorNbSeries || !errorNbRepetition || !errorCharge || !errorTemps || !errorNom) {
             await seancesStores.addOrUpdateExerciceByID(exercice, props.seance.id);
             setExercice({id: uuid.v4() as string} as Exercice);
             props.onSubmit();
@@ -75,14 +74,6 @@ const FormAddExercice = (props: any) => {
 
     const setExerciceIntensite = (intensite: number) => {
         setExercice({...exercice, intensite: intensite});
-
-        intensite = Math.round(intensite);
-
-        if (isNaN(Number(intensite)) || intensite === 0) {
-            setErrorIntensite(true);
-        } else {
-            setErrorIntensite(false);
-        }
     }
 
     const setExerciceCharge = (charge: number) => {
@@ -121,6 +112,7 @@ const FormAddExercice = (props: any) => {
                 <Text style={styles.cardViewTitle}>Créer un exercice</Text>
                 {globalErrorMessage ? <Text style={styles.cardViewError}>{globalErrorMessage}</Text> : null}
 
+                {errorNom ? <Text style={styles.cardViewError}>Nom d'exercice requis</Text> : null}
                 <TextInput style={styles.cardViewTextInput} placeholder="Nom de l'exercice"
                            onChangeText={value => setExerciceNom(value)}/>
 
@@ -137,18 +129,17 @@ const FormAddExercice = (props: any) => {
                            onChangeText={value => setExerciceNbRepetitions(parseInt(value))}
                            keyboardType='numeric'/>
 
-                {errorIntensite ? <Text style={styles.cardViewError}>Intensité incorrecte</Text> : null}
                 <TextInput style={styles.cardViewTextInput} placeholder="Intensité"
                            onChangeText={value => setExerciceIntensite(parseInt(value))}
                            keyboardType='numeric'/>
 
                 {errorCharge ? <Text style={styles.cardViewError}>Charge incorrecte</Text> : null}
-                <TextInput style={styles.cardViewTextInput} placeholder="Charge"
+                <TextInput style={styles.cardViewTextInput} placeholder="Charge (kg)"
                            onChangeText={value => setExerciceCharge(parseInt(value))}
                            keyboardType='numeric'/>
 
                 {errorTemps ? <Text style={styles.cardViewError}>Temps de repos incorrect</Text> : null}
-                <TextInput style={styles.cardViewTextInput} placeholder="Temps de repos"
+                <TextInput style={styles.cardViewTextInput} placeholder="Temps de repos (s)"
                            onChangeText={value => setExerciceTempsRepos(parseInt(value))}
                            keyboardType='numeric'/>
 
