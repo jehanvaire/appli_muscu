@@ -110,7 +110,7 @@ const Menu = () => {
 
             <Nav title={getTitle()}/>
 
-            <View style={{flex: 3}}>
+            <View style={{flex: 4}}>
                 <FormUpdateSeance seance={seanceToUpdate} isUpdatingSeance={isUpdatingSeance}
                                 onSubmit={async () => handleSubmit()}
                                 onClose={() => {
@@ -136,7 +136,7 @@ const Menu = () => {
 
                 <Nav title={getTitle()}/>
 
-                <View style={{flex: 3}}>
+                <View style={{flex: 4}}>
                     <FormAddExercice seance={seanceToAddExercice} isAddingExercice={isAddingExercice}
                                      onSubmit={async () => handleSubmit()}
                                      onClose={() => {
@@ -172,7 +172,7 @@ const Menu = () => {
 
             <Nav title={getTitle()}/>
 
-            <View style={{flex: 3}}>
+            <View style={{flex: 4}}>
                 {isAddSeance ? null : <View>
                     <CustomButton
                         title='Ajouter une séance'
@@ -259,9 +259,10 @@ const styles = StyleSheet.create({
     cardView: {
         paddingHorizontal: 10,
         paddingVertical: 10,
-        backgroundColor: '#4d4d4d',
+        backgroundColor: 'rgba(77, 77, 77, .7)',
         borderRadius: 8,
         width: '90%',
+        minHeight: '8rem',
         marginLeft: 'auto',
         marginRight: 'auto',
         marginTop: 15,

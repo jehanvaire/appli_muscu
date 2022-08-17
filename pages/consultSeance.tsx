@@ -7,7 +7,7 @@ import {Exercice} from "../types";
 
 const ConsultSeance = (props : any) => {
     return (
-        <View style={{flex: 3}}>
+        <View style={{flex: 4}}>
             <ScrollView>
                 {props.seance?.exercices && props.seance?.exercices?.map((exercice: Exercice) => {
                     return (
