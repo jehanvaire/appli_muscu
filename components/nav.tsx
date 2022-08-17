@@ -8,9 +8,9 @@ const Nav = (props : any) => {
 		<View style={styles.container}>
 			<Header
 				customStyles={styles.svgCurve}
-				customHeight={160}
-				customTop={130}
-				customBgColor="#5000ca"
+				customHeight={80}
+				customTop={80}
+				customBgColor="#000"
 				customWavePattern="M0,96L48,112C96,128,192,160,288,
 				186.7C384,213,480,235,576,213.3C672,192,768,128,864,
 				128C960,128,1056,192,1152,208C1248,224,1344,192,1392,
@@ -27,8 +27,7 @@ const Nav = (props : any) => {
 
 const styles = StyleSheet.create({
 	container: {
-	    flex: 1,
-	    backgroundColor: '#181818'
+	    flex: 1
   	},
   	headerContainer: {
     	marginTop: 35,
