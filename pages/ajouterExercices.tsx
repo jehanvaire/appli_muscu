@@ -112,36 +112,38 @@ const FormAddExercice = (props: any) => {
                 <Text style={styles.cardViewTitle}>Créer un exercice</Text>
                 {globalErrorMessage ? <Text style={styles.cardViewError}>{globalErrorMessage}</Text> : null}
 
-                {errorNom ? <Text style={styles.cardViewError}>Nom d'exercice requis</Text> : null}
+
                 <TextInput style={styles.cardViewTextInput} placeholder="Nom de l'exercice"
                            onChangeText={value => setExerciceNom(value)}/>
+                {errorNom ? <Text style={styles.cardViewError}>Nom d'exercice requis</Text> : null}
+
 
                 <TextInput style={styles.cardViewTextInput} placeholder="Description de l'exercice"
                            onChangeText={value => setExerciceDescription(value)}/>
 
-                {errorNbSeries ? <Text style={styles.cardViewError}>Nombre de séries incorrect</Text> : null}
                 <TextInput style={styles.cardViewTextInput} placeholder="Nombre de séries"
                            onChangeText={value => setExerciceNbSeries(parseInt(value))}
                            keyboardType='numeric'/>
+                {errorNbSeries ? <Text style={styles.cardViewError}>Nombre de séries incorrect</Text> : null}
 
-                {errorNbRepetition ? <Text style={styles.cardViewError}>Nombre de répétitions incorrect</Text> : null}
                 <TextInput style={styles.cardViewTextInput} placeholder="Nombre de répétitions"
                            onChangeText={value => setExerciceNbRepetitions(parseInt(value))}
                            keyboardType='numeric'/>
+                {errorNbRepetition ? <Text style={styles.cardViewError}>Nombre de répétitions incorrect</Text> : null}
 
                 <TextInput style={styles.cardViewTextInput} placeholder="Intensité"
                            onChangeText={value => setExerciceIntensite(parseInt(value))}
                            keyboardType='numeric'/>
 
-                {errorCharge ? <Text style={styles.cardViewError}>Charge incorrecte</Text> : null}
                 <TextInput style={styles.cardViewTextInput} placeholder="Charge (kg)"
                            onChangeText={value => setExerciceCharge(parseInt(value))}
                            keyboardType='numeric'/>
+                {errorCharge ? <Text style={styles.cardViewError}>Charge incorrecte</Text> : null}
 
-                {errorTemps ? <Text style={styles.cardViewError}>Temps de repos incorrect</Text> : null}
                 <TextInput style={styles.cardViewTextInput} placeholder="Temps de repos (s)"
                            onChangeText={value => setExerciceTempsRepos(parseInt(value))}
                            keyboardType='numeric'/>
+                {errorTemps ? <Text style={styles.cardViewError}>Temps de repos incorrect</Text> : null}
 
                 <TextInput style={styles.cardViewTextInput} placeholder="Tempos"
                            onChangeText={value => setExerciceTempos(value)}/>
@@ -203,7 +205,7 @@ const styles = StyleSheet.create({
     cardViewError: {
         color: "red",
         fontSize: 12,
-        marginLeft: 10,
+        marginLeft: 20,
         marginBottom: 10,
     },
     btnWrapper : {
