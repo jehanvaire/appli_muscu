@@ -85,10 +85,6 @@ const Menu = () => {
         return 'Vos séances'
     }
 
-    const setOpenPanel = (index  : number) => {
-
-    }
-
     /**
      *
      * PARTIE VUE
