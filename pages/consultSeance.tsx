@@ -1,29 +1,54 @@
-import React from "react";
-import {View, Text, ScrollView, StyleSheet} from "react-native";
+import React, { useState } from "react";
+import {View, Text, ScrollView, StyleSheet, Button} from "react-native";
 import CustomButton from "../components/button";
 
-// types
+// components et types
 import {Exercice} from "../types";
+import RunSeance from "./runSeance";
 
 const ConsultSeance = (props : any) => {
-    return (
-        <View style={{flex: 4}}>
-            <ScrollView>
-                {props.seance?.exercices && props.seance?.exercices?.map((exercice: Exercice) => {
-                    return (
-                        <View key={exercice?.id} style={styles.exerciceChip}>
-                            <Text style={styles.exerciceText}>{exercice?.nom}</Text>
-                        </View>
-                    )
-                })}
-            <CustomButton
-                title='Retour'
-                onPress={() => {
-                    props.onClose()
-                }}/>
-            </ScrollView>
-        </View>
-    )
+
+    const [isRunSeance, setIsRunSeance] = useState(false);
+
+    const startSeance = () => {
+        setIsRunSeance(true);
+    }
+
+    if(isRunSeance) {
+        return(
+            <View style={{flex: 4}}>
+                <RunSeance seance={props.seance}/>
+            </View>
+        )
+    } else {
+        return (
+            <View style={{flex: 4}}>
+                <ScrollView>
+                    {props.seance?.exercices && props.seance?.exercices?.map((exercice: Exercice) => {
+                        return (
+                            <View key={exercice?.id} style={styles.exerciceChip}>
+                                <Text style={styles.exerciceText}>{exercice?.nom}</Text>
+                            </View>
+                        )
+                    })}
+                
+                <View style={{marginBottom: 5, marginTop: 5}}>
+                    <CustomButton
+                        title='Lancer la séance'
+                        onPress={() => {
+                            startSeance()
+                        }}/>
+                </View>
+    
+                <CustomButton
+                    title='Retour'
+                    onPress={() => {
+                        props.onClose()
+                    }}/>
+                </ScrollView>
+            </View>
+        )
+    }
 }
 
 const styles  = StyleSheet.create({
