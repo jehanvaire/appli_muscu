@@ -16,10 +16,14 @@ const ConsultSeance = (props : any) => {
         setIsRunSeance(true);
     }
 
+    const onCloseRunSeance = () => {
+        setIsRunSeance(false);
+    }
+
     if(isRunSeance) {
         return (
             <View style={{flex: 4}}>
-                <RunSeance seance={props.seance}/>
+                <RunSeance seance={props.seance} onClose={onCloseRunSeance}/>
             </View>
         )
 
