@@ -9,7 +9,8 @@ import FormUpdateExercice from "./modifExercice";
 const ConsultSeance = (props : any) => {
 
     const [isRunSeance, setIsRunSeance] = useState(false);
-    const [isViewingExercices, setIsViewingExercices] = useState(false);
+    const [isViewingExercice, setIsViewingExercice] = useState(false);
+    const [exerciceToConsult, setExerciceToConsult] = useState({} as Exercice);
 
     const startSeance = () => {
         setIsRunSeance(true);
@@ -22,10 +23,10 @@ const ConsultSeance = (props : any) => {
             </View>
         )
 
-    } else if (isViewingExercices){
+    } else if (isViewingExercice){
         return (
             <View>
-                <FormUpdateExercice exercice={props.exercice} seance={props.seance} onSubmit={props.onSubmit} onClose={props.onClose}/>
+                <FormUpdateExercice exercice={exerciceToConsult} seance={props.seance} onSubmit={props.onSubmit} onClose={props.onClose}/>
             </View>
         )
     } else {
@@ -34,19 +35,20 @@ const ConsultSeance = (props : any) => {
                 <ScrollView>
                     {props.seance?.exercices && props.seance?.exercices?.map((exercice: Exercice) => {
                         return (
-
                             <TouchableOpacity
-                            onPress={() => {
-                                    setIsViewingExercices(true);
-                                }}
-                            key={exercice?.id}>
+                                onPress={() => {
+                                        setIsViewingExercice(true);
+                                        setExerciceToConsult(exercice);
+                                    }}
+                                key={exercice?.id
+                            }>
                                 <View key={exercice?.id} style={styles.exerciceChip}>
                                     <Text style={styles.exerciceText}>{exercice?.nom}</Text>
                                 </View>
                             </TouchableOpacity>
                         )
                     })}
-                
+
                 <View style={{marginBottom: 5, marginTop: 5}}>
                     <CustomButton
                         title='Lancer la séance'
@@ -54,7 +56,7 @@ const ConsultSeance = (props : any) => {
                             startSeance()
                         }}/>
                 </View>
-    
+
                 <CustomButton
                     title='Retour'
                     onPress={() => {

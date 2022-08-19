@@ -12,16 +12,11 @@ const FormUpdateExercice = (props: any) => {
     const seancesStores = new SeancesStore;
 
     const submit = () => {
-
-        console.log(props);
-        // seancesStores.addOrUpdateExerciceByID(exercice, props.seance?.id || "");
-        // props.onSubmit();
+        console.log(exercice);
     }
 
     return (
         <View>
-
-
             <Button title="Valider" onPress={() => {
                 submit();
             }}/>
