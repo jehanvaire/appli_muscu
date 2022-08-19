@@ -61,7 +61,7 @@ const Menu = () => {
         if (idSeance === undefined) return;
 
         setToOpenPanel(-1);
-        seancesStores.deleteSeance(idSeance);
+        await seancesStores.deleteSeance(idSeance);
         await loadData();
     }
 
@@ -108,22 +108,20 @@ const Menu = () => {
 
             <View style={{flex: 4}}>
                 <FormUpdateSeance seance={seanceToUpdate} isUpdatingSeance={isUpdatingSeance}
-                                onSubmit={async () => handleSubmit()}
-                                onClose={() => {
-                                    setIsUpdatingSeance(false);
-                                    setSeanceToUpdate({} as Seance);
-                                    setToOpenPanel(-1);
-                                }}
-                                reloadData={async() => {
-                                    await loadData();
-                                }}
-                                />
+                                  onSubmit={async () => handleSubmit()}
+                                  onClose={() => {
+                                      setIsUpdatingSeance(false);
+                                      setSeanceToUpdate({} as Seance);
+                                      setToOpenPanel(-1);
+                                  }}
+                                  reloadData={async () => {
+                                      await loadData();
+                                  }}
+                />
             </View>
         </View>)
 
-    }
-
-    else if (isAddingExercice) {
+    } else if (isAddingExercice) {
         // afficher le formulaire d'ajout d'exercices
         return (
             <View style={[styles.container, {
@@ -136,17 +134,15 @@ const Menu = () => {
                     <FormAddExercice seance={seanceToAddExercice} isAddingExercice={isAddingExercice}
                                      onSubmit={async () => handleSubmit()}
                                      onClose={() => {
-                                        setIsAddingExercice(false);
-                                        setSeanceToAddExercice({} as Seance);
-                                        setToOpenPanel(-1);
+                                         setIsAddingExercice(false);
+                                         setSeanceToAddExercice({} as Seance);
+                                         setToOpenPanel(-1);
                                      }}
                     />
                 </View>
             </View>
         )
-    }
-
-    else if(isConsultSeance) {
+    } else if (isConsultSeance) {
         return (
             <View style={[styles.container, {
                 flexDirection: "column"
@@ -158,9 +154,7 @@ const Menu = () => {
                 }}/>
             </View>
         )
-    }
-
-    else {
+    } else {
         // else afficher séances
         return (<View style={[styles.container, {
             flexDirection: "column"
@@ -183,63 +177,64 @@ const Menu = () => {
 
                 <FormAddSeance isAddSeance={isAddSeance} onSubmit={async () => handleSubmit()}
                                onClose={() => {
-                                    setIsAddSeance(false);
-                                    setToOpenPanel(-1);
-                            }}/>
+                                   setIsAddSeance(false);
+                                   setToOpenPanel(-1);
+                               }}/>
 
                 <ScrollView>
-                    {seances !== undefined && seances.map((seance: Seance, index : number) => {
-                        return (<TouchableOpacity onPress={() => {
-                            setSeanceToConsult(seance);
-                            setIsConsultSeance(true)
-                        }} key={seance?.id} style={styles.cardView}>
-                            <View style={[styles.container, {
-                                flexDirection: "row"
-                            }]}>
-                                <Text style={styles.cardViewTitle}>{seance?.nom}</Text>
-                                <Button
-                                    color="primary"
-                                    title='...'
-                                    onPress={async () => {
-                                        toOpenPanel === index ? setToOpenPanel(-1) : setToOpenPanel(index)
-                                    }}/>
-                            </View>
-
-                            <Text
-                                style={styles.cardViewRecap}>{seance?.exercices?.length ? 'La séance contient ' + seance?.exercices?.length + ' exercices' : "Cette séance n'a pas encore d'exercice"}
-                            </Text>
-
-                            {toOpenPanel === index ?
-                                <View style={styles.btnWrapper}>
-                                    <View style={styles.spacer}>
-                                        <Button
-                                            title='Modifier'
-                                            onPress={() => {
-                                                updateSeance(seance);
-                                            }}/>
-                                    </View>
-
-                                    <View style={styles.spacer}>
-                                        <Button
-                                            title='Ajouter exercices'
-                                            color='#32a852'
-                                            onPress={() => {
-                                                addExercice(seance);
-                                            }}/>
-                                    </View>
-
-                                    <View style={styles.spacer}>
-                                        <Button
-                                            color='#c20e0e'
-                                            title='Supprimer'
-                                            onPress={async () => {
-                                                await deleteSeance(seance.id);
-                                            }}/>
-                                    </View>
+                    {seances !== undefined && seances.map((seance: Seance, index: number) => {
+                        return (
+                            <TouchableOpacity onPress={() => {
+                                setSeanceToConsult(seance);
+                                setIsConsultSeance(true)
+                            }} key={seance?.id} style={styles.cardView}>
+                                <View style={[styles.container, {
+                                    flexDirection: "row"
+                                }]}>
+                                    <Text style={styles.cardViewTitle}>{seance?.nom}</Text>
+                                    <Button
+                                        color="primary"
+                                        title='...'
+                                        onPress={async () => {
+                                            toOpenPanel === index ? setToOpenPanel(-1) : setToOpenPanel(index)
+                                        }}/>
                                 </View>
-                            : null }
 
-                        </TouchableOpacity>)
+                                <Text
+                                    style={styles.cardViewRecap}>{seance?.exercices?.length ? 'La séance contient ' + seance?.exercices?.length + ' exercices' : "Cette séance n'a pas encore d'exercice"}
+                                </Text>
+
+                                {toOpenPanel === index ?
+                                    <View style={styles.btnWrapper}>
+                                        <View style={styles.spacer}>
+                                            <Button
+                                                title='Modifier'
+                                                onPress={() => {
+                                                    updateSeance(seance);
+                                                }}/>
+                                        </View>
+
+                                        <View style={styles.spacer}>
+                                            <Button
+                                                title='Ajouter exercices'
+                                                color='#32a852'
+                                                onPress={() => {
+                                                    addExercice(seance);
+                                                }}/>
+                                        </View>
+
+                                        <View style={styles.spacer}>
+                                            <Button
+                                                color='#c20e0e'
+                                                title='Supprimer'
+                                                onPress={async () => {
+                                                    await deleteSeance(seance.id);
+                                                }}/>
+                                        </View>
+                                    </View>
+                                    : null}
+
+                            </TouchableOpacity>)
                     }).reverse()}
                 </ScrollView>
             </View>
@@ -283,13 +278,13 @@ const styles = StyleSheet.create({
     exerciceText: {
         fontWeight: 'bold',
         paddingHorizontal: 5,
-        color : '#fff'
+        color: '#fff'
     },
-    spacer : {
+    spacer: {
         marginTop: 10,
         marginTopBottom: 10
     },
-    btnWrapper : {
+    btnWrapper: {
         flex: 4,
         flexDirection: "column",
         justifyContent: "space-between",

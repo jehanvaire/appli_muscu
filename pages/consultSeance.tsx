@@ -1,23 +1,31 @@
 import React, { useState } from "react";
-import {View, Text, ScrollView, StyleSheet, Button} from "react-native";
+import {View, Text, ScrollView, StyleSheet, Button, TouchableOpacity} from "react-native";
 import CustomButton from "../components/button";
-
 // components et types
 import {Exercice} from "../types";
 import RunSeance from "./runSeance";
+import FormUpdateExercice from "./modifExercice";
 
 const ConsultSeance = (props : any) => {
 
     const [isRunSeance, setIsRunSeance] = useState(false);
+    const [isViewingExercices, setIsViewingExercices] = useState(false);
 
     const startSeance = () => {
         setIsRunSeance(true);
     }
 
     if(isRunSeance) {
-        return(
+        return (
             <View style={{flex: 4}}>
                 <RunSeance seance={props.seance}/>
+            </View>
+        )
+
+    } else if (isViewingExercices){
+        return (
+            <View>
+                <FormUpdateExercice exercice={props.exercice} seance={props.seance} onSubmit={props.onSubmit} onClose={props.onClose}/>
             </View>
         )
     } else {
@@ -26,9 +34,16 @@ const ConsultSeance = (props : any) => {
                 <ScrollView>
                     {props.seance?.exercices && props.seance?.exercices?.map((exercice: Exercice) => {
                         return (
-                            <View key={exercice?.id} style={styles.exerciceChip}>
-                                <Text style={styles.exerciceText}>{exercice?.nom}</Text>
-                            </View>
+
+                            <TouchableOpacity
+                            onPress={() => {
+                                    setIsViewingExercices(true);
+                                }}
+                            key={exercice?.id}>
+                                <View key={exercice?.id} style={styles.exerciceChip}>
+                                    <Text style={styles.exerciceText}>{exercice?.nom}</Text>
+                                </View>
+                            </TouchableOpacity>
                         )
                     })}
                 
