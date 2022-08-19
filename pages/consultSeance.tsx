@@ -30,7 +30,10 @@ const ConsultSeance = (props : any) => {
     } else if (isViewingExercice){
         return (
             <View>
-                <FormUpdateExercice exercice={exerciceToConsult} seance={props.seance} onSubmit={props.onSubmit} onClose={props.onClose}/>
+                <FormUpdateExercice exercice={exerciceToConsult} seance={props.seance} onSubmit={props.onSubmit} onClose={() => {
+                    setExerciceToConsult({} as Exercice);
+                    setIsViewingExercice(false);
+                }}/>
             </View>
         )
     } else {
