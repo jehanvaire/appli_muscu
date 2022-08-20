@@ -1,5 +1,5 @@
 import React from "react";
-import {View, Text, ScrollView, StyleSheet, TouchableOpacity, Button} from "react-native";
+import {View, Text, ScrollView, StyleSheet, TouchableOpacity, Button, TextInput} from "react-native";
 
 import {useState} from "react";
 
@@ -11,14 +11,22 @@ const FormUpdateExercice = (props: any) => {
     const [exercice, setExercice] = useState({...props.exercice} as Exercice);
     const seancesStores = new SeancesStore;
 
-    const submit = () => {
-        console.log(exercice);
+    const submit = async() => {
+        await seancesStores.addOrUpdateExerciceByID(exercice, props.seance.id);
+        props.onSubmit();
     }
 
     return (
         <View>
-            <Button title="Valider" onPress={() => {
-                submit();
+
+            <TextInput style={styles.cardViewTextInput} value={exercice.nom} onChangeText={value => setExercice({...exercice, nom: value})}/>
+
+
+
+
+
+            <Button title="Valider" onPress={async() => {
+                await submit();
             }}/>
 
             <Button title="Retour" color="primary" onPress={() => {
@@ -49,6 +57,15 @@ const styles = StyleSheet.create({
         marginBottom : 5,
         fontWeight : 'bold',
         justifyContent : 'space-between'
+    },
+    cardViewTextInput: {
+        borderWidth: 1,
+        borderColor: "#f194ff",
+        borderRadius: 10,
+        padding: 10,
+        margin: 10,
+        backgroundColor: "#4d4d4d",
+        color: "#f194ff"
     },
 });
 

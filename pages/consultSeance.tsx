@@ -5,35 +5,48 @@ import CustomButton from "../components/button";
 import {Exercice} from "../types";
 import RunSeance from "./runSeance";
 import FormUpdateExercice from "./modifExercice";
+import SeancesStore from "../stores/seancesStore";
 
 const ConsultSeance = (props : any) => {
 
     const [isRunSeance, setIsRunSeance] = useState(false);
     const [isViewingExercice, setIsViewingExercice] = useState(false);
     const [exerciceToConsult, setExerciceToConsult] = useState({} as Exercice);
+    const [seance, setSeance] = useState(props.seance);
+
+    const seanceStore = new SeancesStore();
 
     const startSeance = () => {
         setIsRunSeance(true);
     }
 
+    const reloadSeance = () => {
+        setSeance(seanceStore.getSeanceByID(seance.id));
+    }
+
+    async function handleSubmit() {
+        setIsViewingExercice(false);
+        setExerciceToConsult({} as Exercice);
+        reloadSeance();
+    }
+
     if(isRunSeance) {
         return (
             <View style={{flex: 4}}>
-                <RunSeance seance={props.seance}/>
+                <RunSeance seance={seance}/>
             </View>
         )
-
     } else if (isViewingExercice){
         return (
             <View>
-                <FormUpdateExercice exercice={exerciceToConsult} seance={props.seance} onSubmit={props.onSubmit} onClose={props.onClose}/>
+                <FormUpdateExercice exercice={exerciceToConsult} seance={seance} onSubmit={async () => handleSubmit()} onClose={props.onClose}/>
             </View>
         )
     } else {
         return (
             <View style={{flex: 4}}>
                 <ScrollView>
-                    {props.seance?.exercices && props.seance?.exercices?.map((exercice: Exercice) => {
+                    {seance.exercices && seance.exercices?.map((exercice: Exercice) => {
                         return (
                             <TouchableOpacity
                                 onPress={() => {

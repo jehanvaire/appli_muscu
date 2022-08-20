@@ -58,7 +58,8 @@ export default class SeancesStore {
     }
 
     public async addOrUpdateExerciceByID(exercice: Exercice, idSeance: string) {
-        const seanceIndex = this.seances.findIndex(s => s.id === idSeance);
+
+        const seanceIndex = this.seances.findIndex((s: Seance) => s.id === idSeance);
 
         if (seanceIndex === -1) return;
 
@@ -91,18 +92,18 @@ export default class SeancesStore {
         await this._setSeances();
     }
 
-    public async deleteExerciceByID(exercice : Exercice, idSeance : string) : Promise<Seance | undefined> {
+    public async deleteExerciceByID(exercice: Exercice, idSeance: string): Promise<Seance | undefined> {
         const seanceIndex = this.seances.findIndex(s => s.id === idSeance);
 
-        if(seanceIndex === -1) return;
+        if (seanceIndex === -1) return;
 
         let seance = this.seances[seanceIndex] as Seance;
 
-        if(!seance.exercices) return;
+        if (!seance.exercices) return;
 
         const exerciceIndex = seance.exercices.findIndex(e => e.id === exercice.id);
 
-        if(exerciceIndex === -1) return;
+        if (exerciceIndex === -1) return;
 
         seance.exercices.splice(exerciceIndex, 1);
 
