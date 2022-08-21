@@ -24,6 +24,10 @@ const ConsultSeance = (props : any) => {
         setSeance(seanceStore.getSeanceByID(seance.id));
     }
 
+    const onCloseRunSeance = () => {
+        setIsRunSeance(false);
+    }
+
     async function handleSubmit() {
         setIsViewingExercice(false);
         setExerciceToConsult({} as Exercice);
@@ -33,7 +37,7 @@ const ConsultSeance = (props : any) => {
     if(isRunSeance) {
         return (
             <View style={{flex: 4}}>
-                <RunSeance seance={seance}/>
+                <RunSeance seance={seance} onClose={onCloseRunSeance}/>
             </View>
         )
     } else if (isViewingExercice){

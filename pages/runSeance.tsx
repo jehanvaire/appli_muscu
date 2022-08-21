@@ -8,11 +8,8 @@ import ExerciceCard from "../components/exerciceCard";
 
 const RunSeance = (props : any) => {
 
-    const [seance, setSeance] = useState(props.seance);
     const [exercices, setCurrentExercices] = useState(props.seance?.exercices);
     const [info, setInfo] = useState("");
-
-    // Pour avoir le défilement dans le bon sens il faut prendre -> length - actual
     const [currentExerciceKey, setCurrentExerciceKey] = useState(0);
 
     const next = () => {
