@@ -20,10 +20,6 @@ const ConsultSeance = (props : any) => {
         setIsRunSeance(true);
     }
 
-    const reloadSeance = () => {
-        setSeance(seanceStore.getSeanceByID(seance.id));
-    }
-
     const onCloseRunSeance = () => {
         setIsRunSeance(false);
     }
@@ -31,7 +27,7 @@ const ConsultSeance = (props : any) => {
     async function handleSubmit() {
         setIsViewingExercice(false);
         setExerciceToConsult({} as Exercice);
-        reloadSeance();
+        props.onRefresh();
     }
 
     if(isRunSeance) {
@@ -43,7 +39,7 @@ const ConsultSeance = (props : any) => {
     } else if (isViewingExercice){
         return (
             <View>
-                <FormUpdateExercice exercice={exerciceToConsult} seance={seance} onSubmit={async () => handleSubmit()} onClose={props.onClose}/>
+                <FormUpdateExercice exercice={exerciceToConsult} seance={seance} onSubmit={() => handleSubmit()} onClose={props.onClose}/>
             </View>
         )
     } else {

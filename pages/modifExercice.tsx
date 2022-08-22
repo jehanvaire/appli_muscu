@@ -18,12 +18,7 @@ const FormUpdateExercice = (props: any) => {
 
     return (
         <View>
-
             <TextInput style={styles.cardViewTextInput} value={exercice.nom} onChangeText={value => setExercice({...exercice, nom: value})}/>
-
-
-
-
 
             <Button title="Valider" onPress={async() => {
                 await submit();

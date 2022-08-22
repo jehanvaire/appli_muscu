@@ -26,20 +26,36 @@ const Menu = () => {
     const [isAddingExercice, setIsAddingExercice] = useState(false);
     const [isConsultSeance, setIsConsultSeance] = useState(false);
     const [seanceToConsult, setSeanceToConsult] = useState({} as Seance);
+    const [seanceToRefresh, setSeanceToRefresh] = useState('');
     const [toOpenPanel, setToOpenPanel] = useState(-1);
-
-
-    /**
-     * Stores const
-     */
-    const seancesStores = new SeancesStore;
+    const [seancesStores, setSeancesStore] = useState(new SeancesStore);
 
     const loadData = async () => {
         const res = await seancesStores.getSeances();
 
         if (res) {
             setSeances(res);
+
+            if(seanceToRefresh.length > 0) {
+                const refreshedSeance = res.find((s : Seance) => {
+                    return s.id === seanceToRefresh;
+                })
+
+                if(refreshedSeance) {
+                    setSeanceToConsult(refreshedSeance);
+                    setSeanceToRefresh('');
+                }
+            }
+
             setLoading(false);
+        }
+    }
+
+    const refreshOnDeepSubmitExercice = (idSeance? : string) => {
+        setSeancesStore(new SeancesStore());
+
+        if(idSeance) {
+            setSeanceToRefresh(idSeance);
         }
     }
 
@@ -149,9 +165,14 @@ const Menu = () => {
             }]}>
                 <Nav title={getTitle()}/>
                 <ConsultSeance seance={seanceToConsult} onClose={() => {
-                    setIsConsultSeance(false);
-                    setSeanceToConsult({} as Seance);
-                }}/>
+                        setIsConsultSeance(false);
+                        setSeanceToConsult({} as Seance);
+                    }}
+                    onRefresh={async() => {
+                        refreshOnDeepSubmitExercice(seanceToConsult?.id);
+                        setLoading(true);
+                    }}
+                />
             </View>
         )
     } else {
