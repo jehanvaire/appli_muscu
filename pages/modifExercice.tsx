@@ -18,7 +18,33 @@ const FormUpdateExercice = (props: any) => {
 
     return (
         <View>
+            <Text style={styles.title}>Nom</Text>
             <TextInput style={styles.cardViewTextInput} value={exercice.nom} onChangeText={value => setExercice({...exercice, nom: value})}/>
+
+            <Text style={styles.title}>Description</Text>
+            <TextInput style={styles.cardViewTextInput} value={exercice.description} onChangeText={value => setExercice({...exercice, description: value})}/>
+
+            <Text style={styles.title}>Nombre de séries</Text>
+            <TextInput style={styles.cardViewTextInput} value={exercice.nbSeries.toString()} onChangeText={value => setExercice({...exercice, nbSeries: Number(value)})}/>
+
+            <Text style={styles.title}>Nombre de répétitions</Text>
+            <TextInput style={styles.cardViewTextInput} value={exercice.nbRepetitions.toString()} onChangeText={value => setExercice({...exercice, nbRepetitions: Number(value)})}/>
+
+            <Text style={styles.title}>Intensité (%)</Text>
+            <TextInput style={styles.cardViewTextInput} value={exercice.intensite?.toString()} onChangeText={value => setExercice({...exercice, intensite: Number(value)})}/>
+
+            <Text style={styles.title}>Charge</Text>
+            <TextInput style={styles.cardViewTextInput} value={exercice.charge?.toString()} onChangeText={value => setExercice({...exercice, charge: Number(value)})}/>
+
+            <Text style={styles.title}>Temps de repos</Text>
+            <TextInput style={styles.cardViewTextInput} value={exercice.tempsRepos?.toString()} onChangeText={value => setExercice({...exercice, tempsRepos: Number(value)})}/>
+
+            <Text style={styles.title}>Tempos</Text>
+            <TextInput style={styles.cardViewTextInput} value={exercice.tempos} onChangeText={value => setExercice({...exercice, tempos: value})}/>
+
+            <Text style={styles.title}>Sensation</Text>
+            <TextInput style={styles.cardViewTextInput} value={exercice.sensation} onChangeText={value => setExercice({...exercice, sensation: value})}/>
+
 
             <Button title="Valider" onPress={async() => {
                 await submit();
