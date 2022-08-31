@@ -36,12 +36,12 @@ const Menu = () => {
         if (res) {
             setSeances(res);
 
-            if(seanceToRefresh.length > 0) {
-                const refreshedSeance = res.find((s : Seance) => {
+            if (seanceToRefresh.length > 0) {
+                const refreshedSeance = res.find((s: Seance) => {
                     return s.id === seanceToRefresh;
                 })
 
-                if(refreshedSeance) {
+                if (refreshedSeance) {
                     setSeanceToConsult(refreshedSeance);
                     setSeanceToRefresh('');
                 }
@@ -51,10 +51,10 @@ const Menu = () => {
         }
     }
 
-    const refreshOnDeepSubmitExercice = (idSeance? : string) => {
+    const refreshOnDeepSubmitExercice = (idSeance?: string) => {
         setSeancesStore(new SeancesStore());
 
-        if(idSeance) {
+        if (idSeance) {
             setSeanceToRefresh(idSeance);
         }
     }
@@ -165,13 +165,13 @@ const Menu = () => {
             }]}>
                 <Nav title={getTitle()}/>
                 <ConsultSeance seance={seanceToConsult} onClose={() => {
-                        setIsConsultSeance(false);
-                        setSeanceToConsult({} as Seance);
-                    }}
-                    onRefresh={async() => {
-                        refreshOnDeepSubmitExercice(seanceToConsult?.id);
-                        setLoading(true);
-                    }}
+                    setIsConsultSeance(false);
+                    setSeanceToConsult({} as Seance);
+                }}
+                               onRefresh={async () => {
+                                   refreshOnDeepSubmitExercice(seanceToConsult?.id);
+                                   setLoading(true);
+                               }}
                 />
             </View>
         )
@@ -237,15 +237,6 @@ const Menu = () => {
 
                                         <View style={styles.spacer}>
                                             <Button
-                                                title='Ajouter exercices'
-                                                color='#32a852'
-                                                onPress={() => {
-                                                    addExercice(seance);
-                                                }}/>
-                                        </View>
-
-                                        <View style={styles.spacer}>
-                                            <Button
                                                 color='#c20e0e'
                                                 title='Supprimer'
                                                 onPress={async () => {
@@ -255,6 +246,14 @@ const Menu = () => {
                                     </View>
                                     : null}
 
+                                <View style={styles.spacer}>
+                                    <Button
+                                        title='Ajouter exercices'
+                                        color='#32a852'
+                                        onPress={() => {
+                                            addExercice(seance);
+                                        }}/>
+                                </View>
                             </TouchableOpacity>)
                     }).reverse()}
                 </ScrollView>
