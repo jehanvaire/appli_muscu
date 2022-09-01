@@ -25,7 +25,7 @@ const RunSeance = (props: any) => {
       <View style={{ flex: 1 }}>
         {info ? <Text style={styles.info}>{info}</Text> : null}
 
-        <View key={exercices[currentExerciceKey].id}>
+        <View style={styles.exerciceCard} key={exercices[currentExerciceKey].id}>
           <ExerciceCard exercice={exercices[currentExerciceKey]} />
         </View>
 
@@ -63,6 +63,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
+  exerciceCard: {
+    height: '70%',
+  }
 });
 
 export default RunSeance;
