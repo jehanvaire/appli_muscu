@@ -323,7 +323,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(77, 77, 77, .7)',
     borderRadius: 8,
     width: '90%',
-    minHeight: '8rem',
     marginLeft: 'auto',
     marginRight: 'auto',
     marginTop: 15,
