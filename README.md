@@ -2,6 +2,7 @@
 
 to do list : 
 
-- [x] #739
-- [ ] https://github.com/octo-org/octo-repo/issues/740
-- [ ] Add delight to the experience when all tasks are complete :tada:
+- [ ] timer en arrière plan
+- [ ] images de muscu sur les cartes des séances
+- [ ] corriger les erreurs d'input (int, float) à la modification d'un exercice
+- [ ] ajotuer les cycles
