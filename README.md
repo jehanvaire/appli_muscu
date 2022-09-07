@@ -2,4 +2,4 @@
 
 to do list : 
 
-[] : truc
+[ ] : truc
