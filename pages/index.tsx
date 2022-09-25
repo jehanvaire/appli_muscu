@@ -9,6 +9,7 @@ import SeancesStore from '../stores/seancesStore';
 import Nav from '../components/nav';
 import CustomButton from '../components/button';
 import FormAddSeance from './ajouterSeance';
+import FormAddCycle from './ajouterCycle';
 import FormUpdateSeance from './modifSeance';
 import FormAddExercice from './ajouterExercices';
 import ConsultSeance from './consultSeance';
@@ -29,6 +30,7 @@ const Menu = () => {
   const [seanceToRefresh, setSeanceToRefresh] = useState('');
   const [toOpenPanel, setToOpenPanel] = useState(-1);
   const [seancesStores, setSeancesStore] = useState(new SeancesStore());
+  const [isAddCycle, setIsAddCycle] = useState(false);
 
   const loadData = async () => {
     const res = await seancesStores.getSeances();
@@ -209,6 +211,17 @@ const Menu = () => {
         <Nav title={getTitle()} />
 
         <View style={{ flex: 4 }}>
+          {isAddCycle ? null : (
+            <View style={{ marginBottom: 5 }}>
+              <CustomButton
+                title="Ajouter un cycle"
+                onPress={() => {
+                  setIsAddCycle(!isAddSeance);
+                  setToOpenPanel(-1);
+                }}
+              />
+            </View>
+          )}
           {isAddSeance ? null : (
             <View>
               <CustomButton
@@ -228,6 +241,15 @@ const Menu = () => {
             onSubmit={async () => handleSubmit()}
             onClose={() => {
               setIsAddSeance(false);
+              setToOpenPanel(-1);
+            }}
+          />
+
+          <FormAddCycle
+            isAddCycle={isAddCycle}
+            onSubmit={async () => {}}
+            onClose={() => {
+              setIsAddCycle(false);
               setToOpenPanel(-1);
             }}
           />
