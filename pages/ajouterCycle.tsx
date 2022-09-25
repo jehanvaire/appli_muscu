@@ -2,19 +2,41 @@ import React, { useState } from 'react';
 import { Text, View, Button, TextInput, StyleSheet } from 'react-native';
 import uuid from 'react-native-uuid';
 
+import CyclesStore from '../stores/cyclesStore';
+import { Cycle } from '../types';
+
 const FormAddCycle = (props: any) => {
+  const [cycle, setCycle] = useState({ id: uuid.v4() as string } as Cycle);
+  const cyclesStore = new CyclesStore();
+
+  const setCycleNom = (nom: string) => {
+    setCycle({ ...cycle, nom: nom });
+  };
+
+  const submit = () => {
+    cyclesStore.addOrUpdateCycle(cycle);
+    setCycle({ id: uuid.v4() as string } as Cycle);
+    props.onSubmit();
+  };
+
   if (props.isAddCycle) {
     return (
       <View style={styles.cardView}>
         <Text style={styles.cardViewTitle}>Créer un cycle</Text>
-        <Text>Nouveau cycle</Text>
+        <Text>{cycle.nom}</Text>
         <TextInput
           style={styles.cardViewTextInput}
           placeholder="Nom du cycle"
-          onChangeText={(value) => {}}
+          onChangeText={(value) => setCycleNom(value)}
         />
 
-        <Button title="Valider" color="green" onPress={() => {}} />
+        <Button
+          title="Valider"
+          color="green"
+          onPress={() => {
+            submit();
+          }}
+        />
 
         <Button
           title="Annuler"

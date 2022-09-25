@@ -13,6 +13,7 @@ import FormAddCycle from './ajouterCycle';
 import FormUpdateSeance from './modifSeance';
 import FormAddExercice from './ajouterExercices';
 import ConsultSeance from './consultSeance';
+import CyclesStore from '../stores/cyclesStore';
 
 const Menu = () => {
   /**
@@ -30,6 +31,7 @@ const Menu = () => {
   const [seanceToRefresh, setSeanceToRefresh] = useState('');
   const [toOpenPanel, setToOpenPanel] = useState(-1);
   const [seancesStores, setSeancesStore] = useState(new SeancesStore());
+  const [cyclesStore, setCyclesStore] = useState(new CyclesStore());
   const [isAddCycle, setIsAddCycle] = useState(false);
 
   const loadData = async () => {
@@ -66,6 +68,7 @@ const Menu = () => {
     setToOpenPanel(-1);
     setLoading(true);
     setIsAddSeance(false);
+    setIsAddCycle(false);
     setIsUpdatingSeance(false);
     setIsAddingExercice(false);
     await loadData();
@@ -247,7 +250,7 @@ const Menu = () => {
 
           <FormAddCycle
             isAddCycle={isAddCycle}
-            onSubmit={async () => {}}
+            onSubmit={async () => handleSubmit()}
             onClose={() => {
               setIsAddCycle(false);
               setToOpenPanel(-1);
