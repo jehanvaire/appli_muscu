@@ -15,8 +15,7 @@ export interface Seance {
   id?: string;
   nom?: string;
   exercices?: Exercice[];
-  //Reference à l'id du cycle
-  cycle?: string;
+  cycle?: Cycle;
 }
 
 export interface Cycle {

@@ -1,4 +1,4 @@
-import { Cycle } from '../types';
+import { Cycle, Seance } from '../types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class CyclesStore {
@@ -42,5 +42,31 @@ export default class CyclesStore {
 
     this.cycles.push(cycle);
     this._setCycles();
+  }
+
+  /**
+   * Permet de récupérer la liste des séances organisées en fonction des cycles
+   * @param seances
+   * @returns Map ayant pour clef le cycle et une liste de séances en valeurs
+   * Pour exploiter dans la partie il faut pas la liste des séances obtenue via
+   * le SeancesStore puis créer une nouvelle partie vue dédié pour traiter l'affichage
+   * en fonction des cycles
+   */
+  public getSortedSeances(seances: Seance[]): Map<Cycle, Seance[]> {
+    let sortedMap: Map<Cycle, Seance[]> = new Map<Cycle, Seance[]>();
+
+    this.cycles.forEach((cycle: Cycle) => {
+      sortedMap.set(cycle, [] as Seance[]);
+    });
+
+    seances.forEach((seance: Seance) => {
+      if (seance.cycle) {
+        let arr = sortedMap.get(seance.cycle) || ([] as Seance[]);
+        arr.push(seance);
+        sortedMap.set(seance.cycle, arr);
+      }
+    });
+
+    return sortedMap;
   }
 }
