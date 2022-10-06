@@ -67,6 +67,7 @@ export default class CyclesStore {
       }
     });
 
+    console.log(sortedMap);
     return sortedMap;
   }
 }

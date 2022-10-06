@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button, ScrollView, TouchableOpacity } from 'react-native';
 
 // Imports stores et types
-import { Exercice, Seance } from '../types';
+import { Seance, Cycle } from '../types';
 import SeancesStore from '../stores/seancesStore';
 
 // Import components, pages et style
@@ -22,6 +22,7 @@ const Menu = () => {
   const [seances, setSeances] = useState([] as Seance[]);
   const [loading, setLoading] = useState(true);
   const [isAddSeance, setIsAddSeance] = useState(false);
+  const [sortByCycle, setSortByCyle] = useState(false);
   const [isUpdatingSeance, setIsUpdatingSeance] = useState(false);
   const [seanceToUpdate, setSeanceToUpdate] = useState({} as Seance);
   const [seanceToAddExercice, setSeanceToAddExercice] = useState({} as Seance);
@@ -32,6 +33,7 @@ const Menu = () => {
   const [toOpenPanel, setToOpenPanel] = useState(-1);
   const [seancesStores, setSeancesStore] = useState(new SeancesStore());
   const [cyclesStore, setCyclesStore] = useState(new CyclesStore());
+  const [sortedSeances, setSortedSeance] = useState(new Map<Cycle, Seance[]>());
   const [isAddCycle, setIsAddCycle] = useState(false);
 
   const loadData = async () => {
@@ -105,6 +107,13 @@ const Menu = () => {
 
     return 'Vos séances';
   };
+
+  // Si sortByCyle passe à true on charge les données
+  useEffect(() => {
+    if (sortByCycle) {
+      setSortedSeance(cyclesStore.getSortedSeances(seances));
+    }
+  }, [sortByCycle]);
 
   /**
    *
@@ -226,7 +235,7 @@ const Menu = () => {
             </View>
           )}
           {isAddSeance ? null : (
-            <View>
+            <View style={{ marginBottom: 5 }}>
               <CustomButton
                 title="Ajouter une séance"
                 onPress={() => {
@@ -236,6 +245,14 @@ const Menu = () => {
               />
             </View>
           )}
+          <View>
+            <CustomButton
+              title={sortByCycle ? 'Trier par date' : 'Trier par cycle'}
+              onPress={() => {
+                setSortByCyle(!sortByCycle);
+              }}
+            />
+          </View>
 
           {isUpdatingSeance ? <Text>Modifier une séance</Text> : null}
 
@@ -258,78 +275,86 @@ const Menu = () => {
           />
 
           <ScrollView>
-            {seances !== undefined &&
-              seances
-                .map((seance: Seance, index: number) => {
-                  return (
-                    <TouchableOpacity
-                      onPress={() => {
-                        setSeanceToConsult(seance);
-                        setIsConsultSeance(true);
-                      }}
-                      key={seance?.id}
-                      style={styles.cardView}
-                    >
-                      <View
-                        style={[
-                          styles.container,
-                          {
-                            flexDirection: 'row',
-                          },
-                        ]}
-                      >
-                        <Text style={styles.cardViewTitle}>{seance?.nom}</Text>
-                        <Button
-                          color="primary"
-                          title="..."
-                          onPress={async () => {
-                            toOpenPanel === index ? setToOpenPanel(-1) : setToOpenPanel(index);
-                          }}
-                        />
-                      </View>
-
-                      <Text style={styles.cardViewRecap}>
-                        {seance?.exercices?.length
-                          ? 'La séance contient ' + seance?.exercices?.length + ' exercices'
-                          : "Cette séance n'a pas encore d'exercice"}
-                      </Text>
-
-                      {toOpenPanel === index ? (
-                        <View style={styles.btnWrapper}>
-                          <View style={styles.spacer}>
-                            <Button
-                              title="Modifier"
-                              onPress={() => {
-                                updateSeance(seance);
-                              }}
-                            />
-                          </View>
-
-                          <View style={styles.spacer}>
-                            <Button
-                              color="#c20e0e"
-                              title="Supprimer"
-                              onPress={async () => {
-                                await deleteSeance(seance.id);
-                              }}
-                            />
-                          </View>
-                        </View>
-                      ) : null}
-
-                      <View style={styles.spacer}>
-                        <Button
-                          title="Ajouter exercices"
-                          color="#32a852"
-                          onPress={() => {
-                            addExercice(seance);
-                          }}
-                        />
-                      </View>
-                    </TouchableOpacity>
-                  );
+            {sortByCycle
+              ? sortedSeances !== undefined &&
+                sortedSeances.forEach((value, key) => {
+                  <View>
+                    <Text>{key}</Text>
+                    <ScrollView>{value}</ScrollView>
+                  </View>;
                 })
-                .reverse()}
+              : seances !== undefined &&
+                seances
+                  .map((seance: Seance, index: number) => {
+                    return (
+                      <TouchableOpacity
+                        onPress={() => {
+                          setSeanceToConsult(seance);
+                          setIsConsultSeance(true);
+                        }}
+                        key={seance?.id}
+                        style={styles.cardView}
+                      >
+                        <View
+                          style={[
+                            styles.container,
+                            {
+                              flexDirection: 'row',
+                            },
+                          ]}
+                        >
+                          <Text style={styles.cardViewTitle}>{seance?.nom}</Text>
+                          <Button
+                            color="primary"
+                            title="..."
+                            onPress={async () => {
+                              toOpenPanel === index ? setToOpenPanel(-1) : setToOpenPanel(index);
+                            }}
+                          />
+                        </View>
+
+                        <Text style={styles.cardViewRecap}>
+                          {seance?.exercices?.length
+                            ? 'La séance contient ' + seance?.exercices?.length + ' exercices'
+                            : "Cette séance n'a pas encore d'exercice"}
+                        </Text>
+
+                        {toOpenPanel === index ? (
+                          <View style={styles.btnWrapper}>
+                            <View style={styles.spacer}>
+                              <Button
+                                title="Modifier"
+                                onPress={() => {
+                                  updateSeance(seance);
+                                }}
+                              />
+                            </View>
+
+                            <View style={styles.spacer}>
+                              <Button
+                                color="#c20e0e"
+                                title="Supprimer"
+                                onPress={async () => {
+                                  await deleteSeance(seance.id);
+                                }}
+                              />
+                            </View>
+                          </View>
+                        ) : null}
+
+                        <View style={styles.spacer}>
+                          <Button
+                            title="Ajouter exercices"
+                            color="#32a852"
+                            onPress={() => {
+                              addExercice(seance);
+                            }}
+                          />
+                        </View>
+                      </TouchableOpacity>
+                    );
+                  })
+                  .reverse()}
           </ScrollView>
         </View>
       </View>
