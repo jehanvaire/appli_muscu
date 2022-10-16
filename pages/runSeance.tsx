@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   exerciceCard: {
     height: '70%',
-  }
+  },
 });
 
 export default RunSeance;

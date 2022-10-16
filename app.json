@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "owner": "jehanvaire",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -32,7 +33,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "a5634bd3-8c63-437e-8025-c842f5c19c79"
+        "projectId": "e4cb5b1d-5881-44cb-b7bf-70524f7738cb"
       }
     }
   }
