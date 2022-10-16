@@ -73,14 +73,7 @@ const ExerciceCard = (props: any) => {
       <View style={styles.exerciceCard}>
         <Text style={styles.nom}>Temps de repos</Text>
         <Text style={styles.secondes}>{getFormattedTime(currentTime)}</Text>
-        <View
-          style={[
-            styles.btnWrapper,
-            {
-              flexDirection: 'row',
-            },
-          ]}
-        >
+        <View style={styles.btnWrapper}>
           <View style={styles.btn}>
             <Button
               title="ADD 10s"
@@ -137,6 +130,11 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     margin: 'auto',
+    color: '#FFFFFF',
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
 
   secondes: {
@@ -144,26 +142,30 @@ const styles = StyleSheet.create({
     fontSize: 50,
     fontWeight: 'bold',
     margin: 'auto',
+    color: '#FFFFFF',
   },
 
   series: {
     textAlign: 'center',
     fontSize: 50,
+    marginBottom: 10,
     fontWeight: 'bold',
     margin: 'auto',
+    color: '#FFFFFF',
   },
 
   button: {
     width: '66%',
     marginLeft: 'auto',
     marginRight: 'auto',
+    marginTop: 10,
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 12,
     paddingHorizontal: 10,
     borderRadius: 8,
     elevation: 3,
-    backgroundColor: '#b0e600',
+    backgroundColor: '#32a852',
   },
   exerciceCard: {
     color: '#fff',
@@ -175,6 +177,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     backgroundColor: 'rgba(77, 77, 77, .7)',
     borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   text: {
@@ -198,12 +202,12 @@ const styles = StyleSheet.create({
   btnWrapper: {
     flex: 1,
     justifyContent: 'center',
+    flexDirection: 'row',
     paddingHorizontal: 10,
     paddingVertical: 10,
   },
   btn: {
-    marginTop: 'auto',
-    marginBottom: 'auto',
+    marginTop: 10,
     paddingHorizontal: 5,
     borderRadius: 15,
   },

@@ -29,7 +29,7 @@ const RunSeance = (props: any) => {
           <ExerciceCard exercice={exercices[currentExerciceKey]} />
         </View>
 
-        <View style={{ marginTop: 15 }}>
+        <View style={styles.button}>
           <CustomButton
             title="Prochain exercice"
             onPress={() => {
@@ -39,7 +39,7 @@ const RunSeance = (props: any) => {
         </View>
       </View>
 
-      <View style={{ height: 100 }}>
+      <View style={styles.button}>
         <CustomButton
           title="Retour"
           onPress={() => {
@@ -62,9 +62,23 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     marginTop: 10,
     marginBottom: 10,
+    color: '#FFFFFF',
   },
   exerciceCard: {
-    height: '70%',
+    height: '40%',
+    // center the card
+    marginTop: 'auto',
+    marginBottom: 'auto',
+  },
+  button: {
+    width: '66%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderRadius: 8,
   },
 });
 

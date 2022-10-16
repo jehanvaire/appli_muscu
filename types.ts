@@ -5,7 +5,7 @@ export interface Exercice {
   nbSeries: number;
   nbRepetitions: number;
   intensite?: number;
-  charge: number;
+  charge: string;
   tempsRepos: number;
   tempos?: string;
   sensation?: string;
